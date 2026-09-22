@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { z } from 'zod';
+import { getToday } from '@/lib/helper';
 
 const formSchema = z.object({
   product: z.string().min(1, 'Product wajib diisi'),
@@ -97,6 +98,7 @@ export default function TestPage() {
           <input
             name="date"
             type="date"
+            defaultValue={getToday()}
             className="w-full rounded border p-2"
           />
         </div>
