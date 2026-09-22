@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { notion } from './client';
+import { requireAuth } from '../auth/require-auth';
 
 export type CreateMoneyTrackingInput = {
   product: string;
@@ -11,6 +12,8 @@ export type CreateMoneyTrackingInput = {
 };
 
 export async function createMoneyTracking(input: CreateMoneyTrackingInput) {
+  await requireAuth();
+  
   const dataSourceId = process.env.NOTION_MONEYTRACKING_DATA_SOURCE_ID;
 
   if (!dataSourceId) {
