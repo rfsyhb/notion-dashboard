@@ -99,7 +99,7 @@ export default function TestPage() {
             name="date"
             type="date"
             defaultValue={getToday()}
-            className="w-full rounded border p-2"
+            className="w-full rounded border p-2 [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
           />
         </div>
 
@@ -124,7 +124,7 @@ export default function TestPage() {
           />
         </div>
 
-        <div className='flex flex-row items-center gap-2'>
+        <div className="flex flex-row items-center gap-2">
           <button
             type="submit"
             disabled={loading}

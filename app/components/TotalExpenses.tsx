@@ -24,12 +24,9 @@ export function TotalExpenses() {
   const currentMonth = `${now.getFullYear()}-${String(
     now.getMonth() + 1,
   ).padStart(2, '0')}`;
-  console.log(currentMonth);
-  console.log(expensesQuery.data.data);
   const currentMonthExpensesData = expensesQuery.data.data.filter((v) =>
     v.Date.startsWith(currentMonth),
   );
-  console.log(currentMonthExpensesData);
 
   const totalExpenses =
     expenseData.reduce((total, expense) => total + expense.IDR, 0) ?? 0;
@@ -41,9 +38,9 @@ export function TotalExpenses() {
 
   return (
     <div className="flex flex-col gap-2 p-2 text-right">
-      <p className="">Total Rp{totalExpenses.toLocaleString('id-ID')}</p>
-      <p className="  ">
-        Bulan ini Rp{totalExpensesThisMonth.toLocaleString('id-ID')}
+      <p className=""><span>Total</span> Rp{totalExpenses.toLocaleString('id-ID')}</p>
+      <p className="">
+        <span>Bulan</span> ini Rp{totalExpensesThisMonth.toLocaleString('id-ID')}
       </p>
     </div>
   );
