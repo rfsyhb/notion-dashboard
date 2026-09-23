@@ -3,7 +3,7 @@ import 'server-only';
 import { notion } from './client';
 import { requireAuth } from '../auth/require-auth';
 
-export type CreateMoneyTrackingInput = {
+export type CreateExpensesInput = {
   product: string;
   date: string;
   idr: number;
@@ -11,13 +11,13 @@ export type CreateMoneyTrackingInput = {
   imageName?: string;
 };
 
-export async function createMoneyTracking(input: CreateMoneyTrackingInput) {
+export async function createExpenses(input: CreateExpensesInput) {
   await requireAuth();
   
-  const dataSourceId = process.env.NOTION_MONEYTRACKING_DATA_SOURCE_ID;
+  const dataSourceId = process.env.NOTION_EXPENSES_DATA_SOURCE_ID;
 
   if (!dataSourceId) {
-    throw new Error('NOTION_MONEYTRACKING_DATA_SOURCE_ID is not configured.');
+    throw new Error('NOTION_EXPENSES_DATA_SOURCE_ID is not configured.');
   }
 
   return notion.pages.create({

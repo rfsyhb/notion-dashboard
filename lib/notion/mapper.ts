@@ -1,4 +1,4 @@
-export function mapMoneyTracking(page: any) {
+export function mapExpensesItem(page: any) {
   return {
     id: page.id,
     "Product": page.properties["Product"]?.title[0]?.plain_text || "",

@@ -1,13 +1,13 @@
 import { isFullPage } from '@notionhq/client';
 
 import { queryDataSource } from '@/lib/notion/queries';
-import { mapMoneyTracking } from '@/lib/notion/mapper';
-import { createMoneyTracking } from '@/lib/notion/mutations';
+import { mapExpensesItem } from '@/lib/notion/mapper';
+import { createExpenses } from '@/lib/notion/mutations';
 import { uploadFileToNotion } from '@/lib/notion/upload';
 
 export async function GET() {
   try {
-    const dataSourceId = process.env.NOTION_MONEYTRACKING_DATA_SOURCE_ID;
+    const dataSourceId = process.env.NOTION_EXPENSES_DATA_SOURCE_ID;
 
     if (!dataSourceId) {
       return Response.json(
@@ -21,7 +21,7 @@ export async function GET() {
     }
 
     const data = await queryDataSource(dataSourceId);
-    const mappedData = data.data.map(mapMoneyTracking);
+    const mappedData = data.data.map(mapExpensesItem);
 
     return Response.json({
       data: mappedData,
@@ -98,7 +98,7 @@ export async function POST(request: Request) {
       imageName = image.name;
     }
 
-    const page = await createMoneyTracking({
+    const page = await createExpenses({
       product,
       date,
       idr: Number(idr),
@@ -112,7 +112,7 @@ export async function POST(request: Request) {
 
     return Response.json(
       {
-        data: mapMoneyTracking(page),
+        data: mapExpensesItem(page),
       },
       {
         status: 201,

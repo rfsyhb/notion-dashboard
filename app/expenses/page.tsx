@@ -56,7 +56,7 @@ export default function TestPage() {
       requestFormData.append('idr', result.data.idr.toString());
       requestFormData.append('image', result.data.image);
 
-      const response = await fetch('/api/money-tracking', {
+      const response = await fetch('/api/expenses', {
         method: 'POST',
         body: requestFormData,
       });
