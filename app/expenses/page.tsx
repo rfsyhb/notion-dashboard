@@ -80,7 +80,7 @@ export default function TestPage() {
   }
 
   return (
-    <main className="mx-auto max-w-md p-8">
+    <main className="h-screen p-8 items-center justify-center flex">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="mb-1 block">Product</label>
@@ -124,15 +124,16 @@ export default function TestPage() {
           />
         </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="rounded bg-black px-4 py-2 text-white disabled:opacity-50"
-        >
-          {loading ? 'Submitting...' : 'Submit'}
-        </button>
-
-        {message && <p className="text-sm">{message}</p>}
+        <div className='flex flex-row items-center gap-2'>
+          <button
+            type="submit"
+            disabled={loading}
+            className="rounded bg-black px-4 py-2 text-white disabled:opacity-50 hover:cursor-pointer hover:bg-foreground/90"
+          >
+            {loading ? 'Submitting...' : 'Submit'}
+          </button>
+          {message && <p className="text-sm">{message}</p>}
+        </div>
       </form>
     </main>
   );
