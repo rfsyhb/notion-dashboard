@@ -81,7 +81,7 @@ export default function TestPage() {
 
   return (
     <main className="h-screen p-8 items-center justify-center flex">
-      <form onSubmit={handleSubmit} className="space-y-4 max-w-[60%]">
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="mb-1 block">Product</label>
 
@@ -99,7 +99,7 @@ export default function TestPage() {
             name="date"
             type="date"
             defaultValue={getToday()}
-            className="w-full rounded border p-2 [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+            className="w-full rounded border p-2 appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
           />
         </div>
 
