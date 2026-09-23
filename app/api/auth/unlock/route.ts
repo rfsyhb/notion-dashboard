@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers';
-import { success, z } from 'zod';
+import { z } from 'zod';
 
 import { createSessionToken } from '@/lib/auth/session';
 

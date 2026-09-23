@@ -1,33 +1,47 @@
 'use client';
 
-import { useState } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { FormEvent, useState } from 'react';
+import { getAuthStatus, unlockUser } from '@/lib/auth/auth';
 
-export default function Unlock() {
+export default function UnlockUser() {
   const [code, setCode] = useState('');
-  const [error, setError] = useState('');
 
-  async function unlock() {
-    const response = await fetch('/api/auth/unlock', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        code,
-      }),
-    });
+  const queryClient = useQueryClient();
 
-    if (!response.ok) {
-      setError('Invalid code');
-      return;
-    }
+  const authQuery = useQuery({
+    queryKey: ['auth'],
+    queryFn: getAuthStatus,
+  });
 
-    setCode('');
-    setError('');
+  const unlockMutation = useMutation({
+    mutationFn: unlockUser,
+
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ['auth'],
+      });
+
+      setCode('');
+    },
+  });
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    unlockMutation.mutate(code);
+  }
+
+  if (authQuery.isPending) {
+    return null;
+  }
+
+  if (authQuery.data?.authenticated) {
+    return null;
   }
 
   return (
-    <div className="fixed bottom-4 right-4">
+    <form onSubmit={handleSubmit} className="fixed bottom-4 right-4">
       <input
         type="password"
         value={code}
@@ -35,9 +49,11 @@ export default function Unlock() {
         placeholder="Access code"
       />
 
-      <button onClick={unlock}>Unlock</button>
+      <button type="submit" disabled={unlockMutation.isPending}>
+        {unlockMutation.isPending ? 'Unlocking...' : 'Unlock'}
+      </button>
 
-      {error && <p>{error}</p>}
-    </div>
+      {unlockMutation.isError && <p>{unlockMutation.error.message}</p>}
+    </form>
   );
 }
