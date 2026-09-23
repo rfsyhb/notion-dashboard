@@ -81,7 +81,7 @@ export default function TestPage() {
 
   return (
     <main className="h-screen p-8 items-center justify-center flex">
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4 max-w-[60%]">
         <div>
           <label className="mb-1 block">Product</label>
 
