@@ -37,7 +37,11 @@ export default function UnlockUser() {
   }
 
   if (authQuery.data?.authenticated) {
-    return null;
+    return (
+      <p className="font-light text-sm bottom-4 right-4 fixed">
+        authenticated!
+      </p>
+    );
   }
 
   return (
