@@ -45,16 +45,23 @@ export default function UnlockUser() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="fixed bottom-4 right-4">
+    <form
+      onSubmit={handleSubmit}
+      className="fixed bottom-4 right-4 flex flex-row gap-1"
+    >
       <input
         type="password"
         value={code}
         onChange={(event) => setCode(event.target.value)}
-        placeholder="Access code"
+        className="px-1 max-w-40"
       />
 
-      <button type="submit" disabled={unlockMutation.isPending}>
-        {unlockMutation.isPending ? 'Unlocking...' : 'Unlock'}
+      <button
+        type="submit"
+        disabled={unlockMutation.isPending}
+        className="px-2 hover:cursor-pointer border border-foreground rounded-sm hover:shadow-md"
+      >
+        {unlockMutation.isPending ? 'unlocking...' : 'unlock'}
       </button>
 
       {unlockMutation.isError && <p>{unlockMutation.error.message}</p>}

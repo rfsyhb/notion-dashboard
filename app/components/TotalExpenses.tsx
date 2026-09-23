@@ -4,6 +4,21 @@ import { useQuery } from '@tanstack/react-query';
 import { getExpenses } from '@/lib/expenses';
 
 export function TotalExpenses() {
+  const MONTH = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+
   const expensesQuery = useQuery({
     queryKey: ['expenses'],
     queryFn: getExpenses,
@@ -37,10 +52,17 @@ export function TotalExpenses() {
     ) ?? 0;
 
   return (
-    <div className="flex flex-col gap-2 p-2 text-right">
-      <p className=""><span>Total</span> Rp{totalExpenses.toLocaleString('id-ID')}</p>
+    <div className="flex flex-col px-1 text-right">
       <p className="">
-        <span>Bulan</span> ini Rp{totalExpensesThisMonth.toLocaleString('id-ID')}
+        <span className="text-sm uppercase">All time</span> Rp
+        {totalExpenses.toLocaleString('id-ID')}
+      </p>
+      <p className="">
+        <span className="text-sm uppercase">
+          {MONTH[new Date().getMonth()]}
+        </span>{' '}
+        Rp
+        {totalExpensesThisMonth.toLocaleString('id-ID')}
       </p>
     </div>
   );
