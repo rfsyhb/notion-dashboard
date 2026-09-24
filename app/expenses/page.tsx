@@ -3,6 +3,8 @@
 import { FormEvent, useState } from 'react';
 import { z } from 'zod';
 import { getToday } from '@/lib/helper';
+import { useQuery } from '@tanstack/react-query';
+import { getAuthStatus } from '@/lib/auth/auth';
 
 const formSchema = z.object({
   product: z.string().min(1, 'Product wajib diisi'),
@@ -27,10 +29,28 @@ export default function TestPage() {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const authQuery = useQuery({
+    queryKey: ['auth'],
+    queryFn: getAuthStatus,
+  });
+
+  if (authQuery.isPending) {
+    return null;
+  }
+
+  if (authQuery.data?.authenticated !== true) {
+    return (
+      <p className="w-full h-screen flex items-center justify-center">
+        unauthorized!
+      </p>
+    );
+  }
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const formData = new FormData(event.currentTarget);
+    const form = event.currentTarget;
+    const formData = new FormData(form);
 
     const result = formSchema.safeParse({
       product: formData.get('product'),
@@ -67,9 +87,9 @@ export default function TestPage() {
         throw new Error(data.message ?? 'Request failed');
       }
 
-      setMessage('Data berhasil ditambahkan');
+      form.reset()
 
-      console.log(data);
+      setMessage('Data berhasil ditambahkan');
     } catch (error) {
       setMessage(
         error instanceof Error ? error.message : 'Something went wrong',
