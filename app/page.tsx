@@ -12,7 +12,7 @@ export default function Home() {
             src={'/Notion_app_logo.png'}
             alt="notion_icon"
           />
-          <h2 className="text-lg font-semibold">Rafi&rsquo;s Dashboard</h2>
+          <h2 className="text-lg font-semibold">RAFI&rsquo;s DASHBOARD</h2>
         </div>
         <span className='flex flex-row items-center gap-3'>
           hello world, <TotalExpenses />

@@ -65,7 +65,7 @@ export function TotalExpenses() {
     <table className="ml-auto text-right border-collapse tabular-nums">
       <thead>
         <tr>
-          <td colSpan={2} className='border-b text-center'>total expenses</td>
+          <td colSpan={2} className='border-b text-center'></td>
         </tr>
       </thead>
       <tbody>
@@ -88,12 +88,12 @@ export function TotalExpenses() {
         </tr>
 
         <tr>
-          <td className="pr-3 text-sm uppercase">
+          <td className="pr-3 text-sm uppercase border-b">
             {new Date().toLocaleDateString('id-ID', {
               weekday: 'long',
             })}
           </td>
-          <td className="flex flex-row justify-between">
+          <td className="flex flex-row justify-between border-b">
             <span>Rp</span>
             <span>{totalExpensesToday.toLocaleString('id-ID')}</span>
           </td>
