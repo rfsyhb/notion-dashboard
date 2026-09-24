@@ -2,6 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { getExpenses } from '@/lib/expenses';
+import { getAuthStatus } from '@/lib/auth/auth';
 
 export function TotalExpenses() {
   const MONTH = [
@@ -18,6 +19,12 @@ export function TotalExpenses() {
     'November',
     'December',
   ];
+
+  const authQuery = useQuery({
+    queryKey: ['auth'],
+    queryFn: getAuthStatus,
+  });
+  const authStatus = authQuery.data?.authenticated;
 
   const expensesQuery = useQuery({
     queryKey: ['expenses'],
@@ -61,11 +68,11 @@ export function TotalExpenses() {
       0,
     ) ?? 0;
 
-  return (
+  return authStatus ? (
     <table className="ml-auto text-right border-collapse tabular-nums">
       <thead>
         <tr>
-          <td colSpan={2} className='border-b text-center'></td>
+          <td colSpan={2} className="border-b text-center"></td>
         </tr>
       </thead>
       <tbody>
@@ -100,5 +107,7 @@ export function TotalExpenses() {
         </tr>
       </tbody>
     </table>
+  ) : (
+    <p>unauthorized!</p>
   );
 }
