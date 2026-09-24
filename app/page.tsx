@@ -3,7 +3,7 @@ import { TotalExpenses } from './components/TotalExpenses';
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center font-mono bg-background">
+    <div className="flex flex-col flex-1 p-2 px-4 items-center justify-center font-mono bg-background">
       <main className="flex flex-col gap-2 items-center">
         <div className="flex flex-roww items-center gap-2">
           <Image
@@ -15,7 +15,7 @@ export default function Home() {
           <h2 className="text-lg font-semibold">Rafi&rsquo;s Dashboard</h2>
         </div>
         <span className='flex flex-row items-center gap-3'>
-          total spending <TotalExpenses />
+          hello world, <TotalExpenses />
         </span>
       </main>
     </div>

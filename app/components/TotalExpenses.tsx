@@ -42,6 +42,11 @@ export function TotalExpenses() {
   const currentMonthExpensesData = expensesQuery.data.data.filter((v) =>
     v.Date.startsWith(currentMonth),
   );
+  // ex "2026-09-24"
+  const currentDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate())}`;
+  const currentDateExpensesData = expensesQuery.data.data.filter(
+    (v) => v.Date == currentDate,
+  );
 
   const totalExpenses =
     expenseData.reduce((total, expense) => total + expense.IDR, 0) ?? 0;
@@ -50,20 +55,50 @@ export function TotalExpenses() {
       (total, expense) => total + expense.IDR,
       0,
     ) ?? 0;
+  const totalExpensesToday =
+    currentDateExpensesData.reduce(
+      (total, expense) => total + expense.IDR,
+      0,
+    ) ?? 0;
 
   return (
-    <div className="flex flex-col px-1 text-right">
-      <p className="">
-        <span className="text-sm uppercase">All time</span> Rp
-        {totalExpenses.toLocaleString('id-ID')}
-      </p>
-      <p className="">
-        <span className="text-sm uppercase">
-          {MONTH[new Date().getMonth()]}
-        </span>{' '}
-        Rp
-        {totalExpensesThisMonth.toLocaleString('id-ID')}
-      </p>
-    </div>
+    <table className="ml-auto text-right border-collapse tabular-nums">
+      <thead>
+        <tr>
+          <td colSpan={2} className='border-b text-center'>total expenses</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td className="pr-3 text-sm uppercase">All time</td>
+          <td className="flex flex-row justify-between text-right">
+            <span>Rp</span>
+            <span>{totalExpenses.toLocaleString('id-ID')}</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td className="pr-3 text-sm uppercase">
+            {MONTH[new Date().getMonth()]}
+          </td>
+          <td className="flex flex-row justify-between text-right">
+            <span>Rp</span>
+            <span>{totalExpensesThisMonth.toLocaleString('id-ID')}</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td className="pr-3 text-sm uppercase">
+            {new Date().toLocaleDateString('id-ID', {
+              weekday: 'long',
+            })}
+          </td>
+          <td className="flex flex-row justify-between">
+            <span>Rp</span>
+            <span>{totalExpensesToday.toLocaleString('id-ID')}</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   );
 }
