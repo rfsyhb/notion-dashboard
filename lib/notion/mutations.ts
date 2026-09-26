@@ -13,7 +13,7 @@ export type CreateExpensesInput = {
 
 export async function createExpenses(input: CreateExpensesInput) {
   await requireAuth();
-  
+
   const dataSourceId = process.env.NOTION_EXPENSES_DATA_SOURCE_ID;
 
   if (!dataSourceId) {
@@ -61,6 +61,40 @@ export async function createExpenses(input: CreateExpensesInput) {
           ],
         },
       }),
+    },
+  });
+}
+
+export type CreateTodosInput = {
+  task: string;
+};
+
+export async function createTodos(input: CreateTodosInput) {
+  await requireAuth();
+
+  const dataSourceId = process.env.NOTION_TODOS_DATA_SOURCE_ID;
+
+  if (!dataSourceId) {
+    throw new Error('NOTION_TODOS_DATA_SOURCE_ID is not configured.');
+  }
+
+  return notion.pages.create({
+    parent: {
+      type: 'data_source_id',
+      data_source_id: dataSourceId,
+    },
+
+    properties: {
+      Task: {
+        title: [
+          {
+            type: 'text',
+            text: {
+              content: input.task,
+            },
+          },
+        ],
+      },
     },
   });
 }
