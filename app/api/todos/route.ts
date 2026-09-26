@@ -1,5 +1,7 @@
 import { mapTodosItem } from '@/lib/notion/mapper';
+import { createTodos } from '@/lib/notion/mutations';
 import { queryDataSource } from '@/lib/notion/queries';
+import { isFullPage } from '@notionhq/client';
 
 export async function GET() {
   try {
@@ -30,6 +32,52 @@ export async function GET() {
     return Response.json(
       {
         message: 'Failed to fetch data from Notion.',
+      },
+      {
+        status: 500,
+      },
+    );
+  }
+}
+
+export async function POST(req: Request) {
+  try {
+    const formData = await req.formData();
+
+    const task = formData.get('task') as string;
+    if (typeof task !== 'string') {
+      return Response.json(
+        {
+          message: 'Invalid input data for todo create',
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+
+    const page = await createTodos({
+      task,
+    });
+
+    if (!isFullPage(page)) {
+      throw new Error('Created page is not a full page');
+    }
+
+    return Response.json(
+      {
+        data: mapTodosItem(page),
+      },
+      {
+        status: 201,
+      },
+    );
+  } catch (error) {
+    console.error(error);
+
+    return Response.json(
+      {
+        message: 'Failed to create todo entry.',
       },
       {
         status: 500,
