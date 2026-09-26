@@ -16,7 +16,7 @@ const navItems = [
     icon: Wallet,
   },
   {
-    href: '/todo',
+    href: '/todos',
     label: 'Tasks',
     icon: ClipboardList
   }
