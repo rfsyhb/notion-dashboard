@@ -89,7 +89,7 @@ export default function TestPage() {
 
       form.reset()
 
-      setMessage('Data berhasil ditambahkan');
+      setMessage('expense added!');
     } catch (error) {
       setMessage(
         error instanceof Error ? error.message : 'Something went wrong',
