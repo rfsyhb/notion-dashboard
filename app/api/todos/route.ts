@@ -18,7 +18,14 @@ export async function GET() {
       );
     }
 
-    const data = await queryDataSource(dataSourceId);
+    const data = await queryDataSource(dataSourceId, {
+      filter: {
+        property: 'Status',
+        checkbox: {
+          equals: false,
+        },
+      },
+    });
     const mappedData = data.data.map(mapTodosItem);
 
     return Response.json({
