@@ -1,6 +1,6 @@
 'use client';
 
-import { ClipboardList, House, Wallet } from 'lucide-react';
+import { ClipboardList, House, ScrollText, Wallet } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -18,8 +18,13 @@ const navItems = [
   {
     href: '/todos',
     label: 'Tasks',
-    icon: ClipboardList
-  }
+    icon: ClipboardList,
+  },
+  {
+    href: '/fragments',
+    label: 'Fragments',
+    icon: ScrollText,
+  },
 ];
 
 export function NavBar() {
@@ -45,7 +50,7 @@ export function NavBar() {
                 className={`flex flex-row items-center gap-1 px-2 py-1`}
               >
                 <Icon size={20} />
-                <span className='md:block hidden'>{label}</span>
+                <span className="md:block hidden">{label}</span>
               </Link>
             </li>
           );
