@@ -16,3 +16,9 @@ export function mapTodosItem(page: any) {
     'Created time': page.properties['Created time']?.created_time || '',
   };
 }
+
+export function mapFragments(page: any) {
+  return {
+    
+  }
+}

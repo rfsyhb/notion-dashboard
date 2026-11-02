@@ -21,7 +21,7 @@ const navItems = [
     icon: ClipboardList,
   },
   {
-    href: '/fragments',
+    href: '/api/fragments',
     label: 'Fragments',
     icon: ScrollText,
   },
