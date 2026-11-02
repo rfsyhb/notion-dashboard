@@ -1,6 +1,7 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
+import { FormEvent, useState, useEffect } from 'react';
+import Image from 'next/image';
 import { z } from 'zod';
 import { getToday } from '@/lib/helper';
 import { useQuery } from '@tanstack/react-query';
@@ -28,11 +29,20 @@ const formSchema = z.object({
 export default function TestPage() {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const authQuery = useQuery({
     queryKey: ['auth'],
     queryFn: getAuthStatus,
   });
+
+  useEffect(() => {
+    return () => {
+      if (imagePreview) {
+        URL.revokeObjectURL(imagePreview);
+      }
+    };
+  }, [imagePreview]);
 
   if (authQuery.isPending) {
     return null;
@@ -87,7 +97,8 @@ export default function TestPage() {
         throw new Error(data.message ?? 'Request failed');
       }
 
-      form.reset()
+      form.reset();
+      setImagePreview(null);
 
       setMessage('expense added!');
     } catch (error) {
@@ -141,7 +152,28 @@ export default function TestPage() {
             type="file"
             accept="image/*"
             className="w-full rounded border p-2"
+            onChange={(event) => {
+              const file = event.target.files?.[0];
+
+              if (file && file.type.startsWith('image/')) {
+                setImagePreview(URL.createObjectURL(file));
+              } else {
+                setImagePreview(null);
+              }
+            }}
           />
+
+          {imagePreview && (
+            <div className="relative mt-3 h-48 w-full overflow-hidden rounded border">
+              <Image
+                src={imagePreview}
+                alt="Image preview"
+                fill
+                unoptimized
+                className="object-contain"
+              />
+            </div>
+          )}
         </div>
 
         <div className="flex flex-row items-center gap-2">
