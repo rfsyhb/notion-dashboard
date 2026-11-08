@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useUpdateDailyTask } from '@/lib/hooks/useDailyTask';
 
-type InputTaskKey = 'Wake up at';
+type InputTaskKey = 'Wake up at' | 'Weight' | 'Blood pressure';
 
 type DailyTaskInputProps = {
   id: string;
@@ -22,7 +22,7 @@ export function DailyTaskInput({
   const { mutate, isPending } = useUpdateDailyTask();
 
   function handleSave() {
-    const newValue = input.trim();
+    const newValue = input.length > 0 ? input.trim() : '';
 
     if (newValue === value || isPending) return;
 
@@ -41,7 +41,7 @@ export function DailyTaskInput({
 
   return (
     <label className="flex items-center gap-2">
-      <span className="whitespace-nowrap">{task}</span>
+      <span className="whitespace-nowrap">{task === 'Weight' ? 'Weight at night' : task}</span>
       <input
         type="text"
         value={input}

@@ -3,9 +3,15 @@ import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
 type UpdateDailyTaskInput = {
   id: string;
   'Wake up at'?: string;
+  'Make bed'?: boolean;
   'Read 15 min'?: boolean;
   'Treadmill 20 min'?: boolean;
   'Drink 3 litre'?: boolean;
+  'Creatine'?: boolean;
+  'Yogurt'?: boolean;
+  'Fish oil'?: boolean;
+  'Weight'?: string;
+  'Blood pressure'?: string;
 };
 
 export function useDailyTask() {

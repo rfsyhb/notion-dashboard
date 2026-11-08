@@ -137,12 +137,28 @@ export async function createDailyTask() {
 
 export type UpdateDailyTaskInput = Omit<
   DailyTask,
-  'Date' | 'Wake up at' | 'Read 15 min' | 'Treadmill 20 min' | 'Drink 3 litre'
+  | 'Date'
+  | 'Wake up at'
+  | 'Make bed'
+  | 'Read 15 min'
+  | 'Treadmill 20 min'
+  | 'Drink 3 litre'
+  | 'Creatine'
+  | 'Yogurt'
+  | 'Fish oil'
+  | 'Weight'
+  | 'Blood pressure'
 > & {
   'Wake up at'?: string;
+  'Make bed'?: boolean;
   'Read 15 min'?: boolean;
   'Treadmill 20 min'?: boolean;
   'Drink 3 litre'?: boolean;
+  Creatine?: boolean;
+  Yogurt?: boolean;
+  'Fish oil'?: boolean;
+  Weight?: string;
+  'Blood pressure'?: string;
 };
 export async function updateDailyTask(input: UpdateDailyTaskInput) {
   await requireAuth();
@@ -162,6 +178,11 @@ export async function updateDailyTask(input: UpdateDailyTaskInput) {
           ],
         },
       }),
+      ...(input['Make bed'] !== undefined && {
+        'Make bed': {
+          checkbox: input['Make bed'],
+        },
+      }),
       ...(input['Read 15 min'] !== undefined && {
         'Read 15 min': {
           checkbox: input['Read 15 min'],
@@ -175,6 +196,45 @@ export async function updateDailyTask(input: UpdateDailyTaskInput) {
       ...(input['Drink 3 litre'] !== undefined && {
         'Drink 3 litre': {
           checkbox: input['Drink 3 litre'],
+        },
+      }),
+      ...(input.Creatine !== undefined && {
+        Creatine: {
+          checkbox: input.Creatine,
+        },
+      }),
+      ...(input.Yogurt !== undefined && {
+        Yogurt: {
+          checkbox: input.Yogurt,
+        },
+      }),
+      ...(input['Fish oil'] !== undefined && {
+        'Fish oil': {
+          checkbox: input['Fish oil'],
+        },
+      }),
+      ...(input.Weight !== undefined && {
+        Weight: {
+          rich_text: [
+            {
+              type: 'text',
+              text: {
+                content: input.Weight,
+              },
+            },
+          ],
+        },
+      }),
+      ...(input['Blood pressure'] !== undefined && {
+        'Blood pressure': {
+          rich_text: [
+            {
+              type: 'text',
+              text: {
+                content: input['Blood pressure'],
+              },
+            },
+          ],
         },
       }),
     },
