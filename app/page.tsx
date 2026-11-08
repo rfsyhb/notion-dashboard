@@ -4,9 +4,12 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { ClipboardList, Wallet } from 'lucide-react';
 import { TotalExpenses } from './components/TotalExpenses';
+import { DailyTask } from './components/DailyTask';
+import { useAuth } from '@/lib/hooks/useAuth';
 
 export default function Home() {
   const [currentDisplay, setCurrentDisplay] = useState('');
+  const { data: authData } = useAuth();
 
   const setCurrent = (display: string) => {
     if (currentDisplay !== display) {
@@ -28,7 +31,7 @@ export default function Home() {
           />
           <h2 className="text-lg font-semibold">RAFI&rsquo;s DASHBOARD</h2>
         </div>
-        <section className="flex flex-col items-center gap-1">
+        <section className="flex flex-col items-center gap-3">
           <div className="flex flex-row gap-2 items-center">
             <span>hello world,</span>
             <div className="flex flex-row gap-1">
@@ -46,7 +49,8 @@ export default function Home() {
               </button>
             </div>
           </div>
-          <div className={`min-h-30 ${currentDisplay === '' && 'hidden'}`}>
+          {currentDisplay === '' && authData?.authenticated ? <DailyTask /> : currentDisplay === '' && <p>unauthorized!</p>}
+          <div className={`${currentDisplay === '' && 'hidden'}`}>
             {currentDisplay === 'expenses' && <TotalExpenses />}
             {currentDisplay === 'todos' && <p>tba, todo list</p>}
           </div>
