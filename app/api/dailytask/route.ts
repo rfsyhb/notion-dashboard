@@ -8,50 +8,42 @@ export async function GET() {
 
     if (!dataSourceId) {
       return Response.json(
-        {
-          message: 'Data source ID is not configured.',
-        },
-        {
-          status: 500,
-        },
+        { message: 'Data source ID is not configured.' },
+        { status: 500 },
       );
     }
 
-    const data = await queryDataSource(dataSourceId);
-    console
+    const currentDate = new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'Asia/Makassar',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    }).format(new Date());
 
-    // check if today's date is in the data, if not create a new page for today's date
-    const now = new Date();
-    const currentDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`; // ex "2026-09-24"
-    const todayTask = data.data.find(
-      (task) =>
-        task.object === 'page' &&
-        task.properties?.Date?.type === 'date' &&
-        task.properties.Date.date?.start === currentDate,
-    );
+    // Find today's task
+    const response = await queryDataSource(dataSourceId, {
+      filter: {
+        property: 'Date',
+        date: {
+          equals: currentDate,
+        },
+      },
+    });
 
-    if (!todayTask) {
-      const dailyTask = await createDailyTask();
-      data.data.push(dailyTask); // add the newly created daily task to the data array
-    }
+    const todayTask = response.data.find((task) => task.object === 'page');
 
-    const mappedData = data.data.map(mapDailyTaskItem);
+    // Create a new task if today's task doesn't exist
+    const dailyTask = todayTask ?? (await createDailyTask());
 
     return Response.json({
-      data: mappedData,
-      nextCursor: data.nextCursor,
-      hasMore: data.hasMore,
+      data: mapDailyTaskItem(dailyTask),
     });
   } catch (error) {
-    console.error('Error fetching data from Notion:', error);
+    console.error('Error fetching daily task:', error);
 
     return Response.json(
-      {
-        message: 'Failed to fetch data from Notion.',
-      },
-      {
-        status: 500,
-      },
+      { message: 'Failed to fetch daily task.' },
+      { status: 500 },
     );
   }
 }
