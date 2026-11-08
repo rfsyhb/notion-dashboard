@@ -2,7 +2,14 @@
 
 import { useUpdateDailyTask } from '@/lib/hooks/useDailyTask';
 
-type CheckboxTaskKey = 'Read 15 min' | 'Treadmill 20 min' | 'Drink 3 litre';
+type CheckboxTaskKey =
+  | 'Make bed'
+  | 'Read 15 min'
+  | 'Treadmill 20 min'
+  | 'Drink 3 litre'
+  | 'Creatine'
+  | 'Yogurt'
+  | 'Fish oil';
 
 type DailyTaskCheckboxProps = {
   id: string;

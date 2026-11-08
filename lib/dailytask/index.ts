@@ -2,9 +2,15 @@ export type DailyTask = {
   id: string;
   'Wake up at': string; // title, time ex: "05:42" 24 hour format
   Date: string;
+  'Make bed': boolean;
   'Read 15 min': boolean;
   'Treadmill 20 min': boolean;
   'Drink 3 litre': boolean;
+  'Creatine': boolean;
+  'Yogurt': boolean;
+  'Fish oil': boolean;
+  'Weight': string;
+  'Blood pressure': string;
 };
 
 export type GetDailyTaskPayload = {

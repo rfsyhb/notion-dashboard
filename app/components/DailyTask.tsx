@@ -16,6 +16,12 @@ export function DailyTask() {
         value={data['Wake up at']}
       />
       <DailyTaskCheckbox
+        key={`${data.id}-${data['Make bed']}-make-bed`}
+        id={data.id}
+        task="Make bed"
+        checked={data['Make bed']}
+      />
+      <DailyTaskCheckbox
         key={`${data.id}-${data['Read 15 min']}-read`}
         id={data.id}
         task="Read 15 min"
@@ -32,6 +38,36 @@ export function DailyTask() {
         id={data.id}
         task="Drink 3 litre"
         checked={data['Drink 3 litre']}
+      />
+      <DailyTaskCheckbox
+        key={`${data.id}-${data['Creatine']}-creatine`}
+        id={data.id}
+        task="Creatine"
+        checked={data['Creatine']}
+      />
+      <DailyTaskCheckbox
+        key={`${data.id}-${data['Yogurt']}-yogurt`}
+        id={data.id}
+        task="Yogurt"
+        checked={data['Yogurt']}
+      />
+      <DailyTaskCheckbox
+        key={`${data.id}-${data['Fish oil']}-fish oil`}
+        id={data.id}
+        task="Fish oil"
+        checked={data['Fish oil']}
+      />
+      <DailyTaskInput
+        key={`${data.id}-${data['Weight']}-weight`}
+        id={data.id}
+        task="Weight"
+        value={data['Weight']}
+      />
+      <DailyTaskInput
+        key={`${data.id}-${data['Blood pressure']}-blood-pressure`}
+        id={data.id}
+        task="Blood pressure"
+        value={data['Blood pressure']}
       />
     </div>
   );
