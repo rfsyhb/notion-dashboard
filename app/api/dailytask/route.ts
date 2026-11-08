@@ -1,5 +1,5 @@
 import { queryDataSource } from '@/lib/notion/queries';
-import { createDailyTask } from '@/lib/notion/mutations';
+import { createDailyTask, updateDailyTask } from '@/lib/notion/mutations';
 import { mapDailyTaskItem } from '@/lib/notion/mapper';
 
 export async function GET() {
@@ -37,12 +37,33 @@ export async function GET() {
 
     return Response.json({
       data: mapDailyTaskItem(dailyTask),
+      nextCursor: response.nextCursor,
+      hasMore: response.hasMore,
     });
   } catch (error) {
     console.error('Error fetching daily task:', error);
 
     return Response.json(
       { message: 'Failed to fetch daily task.' },
+      { status: 500 },
+    );
+  }
+}
+
+export async function PATCH(request: Request) {
+  try {
+    const body = await request.json();
+
+    const updatedTask = await updateDailyTask(body);
+
+    return Response.json({
+      data: mapDailyTaskItem(updatedTask),
+    });
+  } catch (error) {
+    console.error('Error updating daily task:', error);
+
+    return Response.json(
+      { message: 'Failed to update daily task.' },
       { status: 500 },
     );
   }

@@ -130,7 +130,7 @@ export async function createDailyTask() {
         date: {
           start: new Date().toISOString().split('T')[0], // ex "2026-09-24"
         },
-      }
+      },
     },
   });
 }
@@ -146,12 +146,6 @@ export type UpdateDailyTaskInput = Omit<
 };
 export async function updateDailyTask(input: UpdateDailyTaskInput) {
   await requireAuth();
-
-  const dataSourceId = process.env.NOTION_DAILYTASK_DATA_SOURCE_ID;
-
-  if (!dataSourceId) {
-    throw new Error('NOTION_DAILYTASK_DATA_SOURCE_ID is not configured.');
-  }
 
   return notion.pages.update({
     page_id: input.id,
