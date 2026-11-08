@@ -17,8 +17,17 @@ export function mapTodosItem(page: any) {
   };
 }
 
-export function mapFragments(page: any) {
+export function mapDailyTaskItem(page: any) {
   return {
-    
-  }
+    id: page.id,
+    'Wake up at': page.properties['Wake up at']?.title[0]?.plain_text || '',
+    Date: page.properties['Date']?.date?.start || '',
+    'Read 15 min': page.properties['Read 15 min']?.checkbox || false,
+    'Treadmill 20 min': page.properties['Treadmill 20 min']?.checkbox || false,
+    'Drink 3 litre': page.properties['Drink 3 litre']?.checkbox || false,
+  };
+}
+
+export function mapFragments(page: any) {
+  return {};
 }
