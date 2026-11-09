@@ -2,8 +2,9 @@
 
 import { FormEvent, useState } from 'react';
 import { z } from 'zod';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getAuthStatus } from '@/lib/auth/auth';
+import { TODOS_QUERY_KEY } from '@/lib/hooks/useTodos';
 
 const formSchema = z.object({
   task: z.string().min(1, 'Task title wajib diisi'),
@@ -12,6 +13,7 @@ const formSchema = z.object({
 export default function TodoPage() {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const queryClient = useQueryClient();
 
   const authQuery = useQuery({
     queryKey: ['auth'],
@@ -66,6 +68,10 @@ export default function TodoPage() {
       }
 
       form.reset();
+
+      queryClient.invalidateQueries({
+        queryKey: TODOS_QUERY_KEY,
+      });
 
       setMessage('todo added!');
     } catch (error) {

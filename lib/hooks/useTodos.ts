@@ -1,7 +1,7 @@
 import type { UpdateTodosInput } from '@/lib/notion/mutations';
 import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
 
-const TODOS_QUERY_KEY = ['todos'];
+export const TODOS_QUERY_KEY = ['todos'];
 
 export function useTodos() {
   return useQuery({
