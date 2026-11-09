@@ -6,6 +6,7 @@ import { ClipboardList, Wallet } from 'lucide-react';
 import { TotalExpenses } from './components/TotalExpenses';
 import { DailyTask } from './components/DailyTask';
 import { useAuth } from '@/lib/hooks/useAuth';
+import TodoList from './components/TodoList';
 
 export default function Home() {
   const [currentDisplay, setCurrentDisplay] = useState('');
@@ -52,7 +53,7 @@ export default function Home() {
           {currentDisplay === '' && authData?.authenticated ? <DailyTask /> : currentDisplay === '' && <p>unauthorized!</p>}
           <div className={`${currentDisplay === '' && 'hidden'}`}>
             {currentDisplay === 'expenses' && <TotalExpenses />}
-            {currentDisplay === 'todos' && <p>tba, todo list</p>}
+            {currentDisplay === 'todos' && <TodoList />}
           </div>
         </section>
       </main>

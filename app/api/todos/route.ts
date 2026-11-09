@@ -1,5 +1,5 @@
 import { mapTodosItem } from '@/lib/notion/mapper';
-import { createTodos } from '@/lib/notion/mutations';
+import { createTodos, updateTodos } from '@/lib/notion/mutations';
 import { queryDataSource } from '@/lib/notion/queries';
 import { isFullPage } from '@notionhq/client';
 
@@ -19,12 +19,12 @@ export async function GET() {
     }
 
     const data = await queryDataSource(dataSourceId, {
-      filter: {
-        property: 'Status',
-        checkbox: {
-          equals: false,
+      sorts: [
+        {
+          timestamp: 'created_time',
+          direction: 'descending',
         },
-      },
+      ],
     });
     const mappedData = data.data.map(mapTodosItem);
 
@@ -85,6 +85,26 @@ export async function POST(req: Request) {
     return Response.json(
       {
         message: 'Failed to create todo entry.',
+      },
+      {
+        status: 500,
+      },
+    );
+  }
+}
+
+export async function PATCH(request: Request) {
+  try {
+    const body = await request.json();
+
+    const updatedTask = await updateTodos(body);
+    return Response.json({ data: mapTodosItem(updatedTask) });
+  } catch (error) {
+    console.error(error);
+
+    return Response.json(
+      {
+        message: 'Failed to update todo entry.',
       },
       {
         status: 500,

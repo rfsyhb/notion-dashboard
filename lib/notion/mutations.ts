@@ -3,6 +3,7 @@ import 'server-only';
 import { notion } from './client';
 import { requireAuth } from '../auth/require-auth';
 import { DailyTask } from '../dailytask';
+import { Todo } from '../todos';
 
 export type CreateExpensesInput = {
   product: string;
@@ -135,6 +136,38 @@ export async function createDailyTask() {
   });
 }
 
+export type UpdateTodosInput = Omit<Todo, 'Task' | 'Status'> & {
+  Task?: string;
+  Status?: boolean;
+};
+
+export async function updateTodos(input: UpdateTodosInput) {
+  await requireAuth();
+
+  return notion.pages.update({
+    page_id: input.id,
+    properties: {
+      ...(input.Task !== undefined && {
+        Task: {
+          title: [
+            {
+              type: 'text',
+              text: {
+                content: input.Task,
+              },
+            },
+          ],
+        },
+      }),
+      ...(input.Status !== undefined && {
+        Status: {
+        checkbox: input.Status,
+        },
+      }),
+    },
+  });
+}
+
 export type UpdateDailyTaskInput = Omit<
   DailyTask,
   | 'Date'
@@ -160,6 +193,7 @@ export type UpdateDailyTaskInput = Omit<
   Weight?: string;
   'Blood pressure'?: string;
 };
+
 export async function updateDailyTask(input: UpdateDailyTaskInput) {
   await requireAuth();
 
