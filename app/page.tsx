@@ -14,7 +14,7 @@ export default function Home() {
 
   const setCurrent = (display: string) => {
     if (currentDisplay !== display) {
-      console.log('setCurrentDisplay', display);
+      // console.log('setCurrentDisplay', display);
       return setCurrentDisplay(display);
     }
     setCurrentDisplay('');

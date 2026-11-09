@@ -36,7 +36,7 @@ export function useUpdateDailyTask() {
 
   return useMutation({
     mutationFn: async (input: UpdateDailyTaskInput) => {
-      console.log('Sending PATCH request with body:', input);
+      // console.log('Sending PATCH request with body:', input);
       const response = await fetch('/api/dailytask', {
         method: 'PATCH',
         headers: {

@@ -51,11 +51,11 @@ export function TotalExpenses() {
   );
   // ex "2026-09-24"
   const currentDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
-  console.log('currentDate', currentDate);
+  // console.log('currentDate', currentDate);
   const currentDateExpensesData = expensesQuery.data.data.filter(
     (v) => v.Date == currentDate,
   );
-  console.log('currentDateExpensesData', currentDateExpensesData);
+  // console.log('currentDateExpensesData', currentDateExpensesData);
 
   const totalExpenses =
     expenseData.reduce((total, expense) => total + expense.IDR, 0) ?? 0;

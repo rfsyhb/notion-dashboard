@@ -25,7 +25,7 @@ export function useUpdateTodos() {
 
   return useMutation({
     mutationFn: async (input: UpdateTodosInput) => {
-      console.log('Sending PATCH request with body:', input);
+      // console.log('Sending PATCH request with body:', input);
       const response = await fetch('/api/todos', {
         method: 'PATCH',
         headers: {
