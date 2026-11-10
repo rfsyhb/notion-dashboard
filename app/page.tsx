@@ -2,11 +2,12 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
-import { ClipboardList, Wallet } from 'lucide-react';
+import { ClipboardList, Sparkles, Wallet } from 'lucide-react';
 import { TotalExpenses } from './components/TotalExpenses';
 import { DailyTask } from './components/DailyTask';
 import { useAuth } from '@/lib/hooks/useAuth';
 import TodoList from './components/TodoList';
+import FragmentList from './components/FragmentList';
 
 export default function Home() {
   const [currentDisplay, setCurrentDisplay] = useState('');
@@ -24,7 +25,7 @@ export default function Home() {
     <div className="flex flex-col flex-1 p-2 px-4 items-center justify-center font-mono bg-background">
       <main className="flex flex-col gap-2 items-center w-full max-w-md h-[50vh]">
         <div className="flex flex-col items-center">
-          <div className='flex flex-row  items-center'>
+          <div className="flex flex-row  items-center">
             <Image
               width={40}
               height={40}
@@ -36,6 +37,12 @@ export default function Home() {
           <div className="flex flex-row gap-2 items-center">
             <span>hello world,</span>
             <div className="flex flex-row gap-1">
+              <button
+                className={`${currentDisplay === 'fragments' && 'bg-foreground text-background'} hover:cursor-pointer p-1 rounded-md`}
+                onClick={() => setCurrent('fragments')}
+              >
+                <Sparkles />
+              </button>
               <button
                 className={`${currentDisplay === 'expenses' && 'bg-foreground text-background'} hover:cursor-pointer p-1 rounded-md`}
                 onClick={() => setCurrent('expenses')}
@@ -57,9 +64,12 @@ export default function Home() {
           ) : (
             currentDisplay === '' && <p>unauthorized!</p>
           )}
-          <div className={`${currentDisplay === '' && 'hidden'} w-full h-full flex justify-center`}>
+          <div
+            className={`${currentDisplay === '' && 'hidden'} w-full h-full flex justify-center`}
+          >
             {currentDisplay === 'expenses' && <TotalExpenses />}
             {currentDisplay === 'todos' && <TodoList />}
+            {currentDisplay === 'fragments' && <FragmentList />}
           </div>
         </section>
       </main>
