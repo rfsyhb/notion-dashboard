@@ -101,7 +101,7 @@ export async function createTodos(input: CreateTodosInput) {
   });
 }
 
-export async function createDailyTask() {
+export async function createDailyTask(date: string) {
   await requireAuth();
 
   const dataSourceId = process.env.NOTION_DAILYTASK_DATA_SOURCE_ID;
@@ -129,7 +129,7 @@ export async function createDailyTask() {
       },
       Date: {
         date: {
-          start: new Date().toISOString().split('T')[0], // ex "2026-09-24"
+          start: date
         },
       },
     },

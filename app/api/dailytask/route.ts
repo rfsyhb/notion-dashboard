@@ -14,7 +14,7 @@ export async function GET() {
     }
 
     const currentDate = new Intl.DateTimeFormat('en-CA', {
-      timeZone: 'Asia/Makassar',
+      timeZone: 'Asia/Jakarta',
       year: 'numeric',
       month: '2-digit',
       day: '2-digit',
@@ -33,7 +33,7 @@ export async function GET() {
     const todayTask = response.data.find((task) => task.object === 'page');
 
     // Create a new task if today's task doesn't exist
-    const dailyTask = todayTask ?? (await createDailyTask());
+    const dailyTask = todayTask ?? (await createDailyTask(currentDate));
 
     return Response.json({
       data: mapDailyTaskItem(dailyTask),

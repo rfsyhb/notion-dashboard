@@ -50,7 +50,11 @@ export default function Home() {
               </button>
             </div>
           </div>
-          {currentDisplay === '' && authData?.authenticated ? <DailyTask /> : currentDisplay === '' && <p>unauthorized!</p>}
+          {currentDisplay === '' && authData?.authenticated ? (
+            <DailyTask />
+          ) : (
+            currentDisplay === '' && <p>unauthorized!</p>
+          )}
           <div className={`${currentDisplay === '' && 'hidden'}`}>
             {currentDisplay === 'expenses' && <TotalExpenses />}
             {currentDisplay === 'todos' && <TodoList />}

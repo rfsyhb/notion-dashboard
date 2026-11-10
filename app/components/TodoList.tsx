@@ -2,10 +2,19 @@ import type { Todo } from '@/lib/todos';
 import { useTodos } from '@/lib/hooks/useTodos';
 import { TodoTask } from './TodoTask';
 import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { getAuthStatus } from '@/lib/auth/auth';
 
 export default function TodoList() {
   const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all');
+
+  const authQuery = useQuery({
+    queryKey: ['auth'],
+    queryFn: getAuthStatus,
+  });
+  const authStatus = authQuery.data?.authenticated;
   const { data, isPending, isError } = useTodos();
+
   if (isPending) return <p>Loading...</p>;
   if (isError) return <p>Failed to load todos</p>;
 
@@ -15,7 +24,7 @@ export default function TodoList() {
     return true; // for 'all' filter
   });
 
-  return (
+  return authStatus ? (
     <section className="flex flex-col gap-3 items-center">
       <div className="flex gap-2">
         <button
@@ -45,5 +54,7 @@ export default function TodoList() {
         ))}
       </ul>
     </section>
+  ) : (
+    <p>unauthorized!</p>
   );
 }
