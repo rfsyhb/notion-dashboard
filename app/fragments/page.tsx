@@ -91,13 +91,13 @@ export default function FragmentsPage() {
     <main className="w-full h-screen flex items-center justify-center">
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col gap-4 w-full max-w-md p-4 border rounded"
+        className="flex flex-col gap-4 w-full max-w-md p-4 rounded"
       >
         <h1 className="text-2xl font-bold">Add Fragment</h1>
         <textarea
           name="snippets"
           placeholder="Enter snippets"
-          className="w-full p-2 border rounded resize-none"
+          className="w-full p-2 border rounded"
           rows={4}
         />
         <select name="type" className="w-full p-2 border rounded">
@@ -110,7 +110,7 @@ export default function FragmentsPage() {
         <button
           type="submit"
           disabled={loading}
-          className="bg-blue-500 text-white p-2 rounded disabled:opacity-50"
+          className="bg-black cursor-pointer hover:bg-foreground/90 text-white p-2 rounded disabled:opacity-50"
         >
           {loading ? 'Adding...' : 'Add Fragment'}
         </button>

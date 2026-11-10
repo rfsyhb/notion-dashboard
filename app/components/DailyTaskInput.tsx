@@ -40,7 +40,7 @@ export function DailyTaskInput({
   }
 
   return (
-    <label className="flex items-center gap-2">
+    <label className="flex items-center gap-2 w-full">
       <span className="whitespace-nowrap">{task === 'Weight' ? 'Weight at night' : task}</span>
       <input
         type="text"
@@ -54,7 +54,7 @@ export function DailyTaskInput({
             event.currentTarget.blur();
           }
         }}
-        className="rounded border px-2 py-1 min-w-0 max-w-max"
+        className="rounded border px-2 py-1 w-full"
       />
     </label>
   );

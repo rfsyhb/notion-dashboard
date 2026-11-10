@@ -12,7 +12,7 @@ export function TodoTask({ id, task, checked }: TodoTaskProps) {
   return (
     <label
       className={`
-        inline-flex w-fit cursor-pointer items-center gap-2
+        inline-flex w-fit cursor-pointer items-center gap-2 px-1
         transition-opacity duration-200 text-sm md:text-base
         ${isPending ? 'opacity-50' : ''}
       `}

@@ -1,3 +1,4 @@
+import { mapFragmentItem } from '@/lib/notion/mapper';
 import { queryDataSource } from '@/lib/notion/queries';
 
 export async function GET() {
@@ -16,9 +17,12 @@ export async function GET() {
     }
 
     const data = await queryDataSource(dataSourceId);
+    const mappedData = data.data.map(mapFragmentItem);
 
     return Response.json({
-      ...data,
+      data: mappedData,
+      nextCursor: data.nextCursor,
+      hasMore: data.hasMore,
     });
   } catch (error) {
     console.error('Error fetching data from Notion:', error);

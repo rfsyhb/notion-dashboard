@@ -71,44 +71,46 @@ export function TotalExpenses() {
     ) ?? 0;
 
   return authStatus ? (
-    <table className="ml-auto text-right border-collapse tabular-nums">
-      <thead>
-        <tr>
-          <td colSpan={2} className="border-b text-center"></td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td className="pr-3 text-sm uppercase">All time</td>
-          <td className="flex flex-row justify-between text-right">
-            <span>Rp</span>
-            <span>{totalExpenses.toLocaleString('id-ID')}</span>
-          </td>
-        </tr>
+    <div className='flex justify-center w-full'>
+      <table className="text-right border-collapse tabular-nums w-fit">
+        <thead>
+          <tr>
+            <td colSpan={2} className="border-b text-center"></td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td className="pr-3 text-sm uppercase">All time</td>
+            <td className="flex flex-row justify-between text-right">
+              <span>Rp</span>
+              <span>{totalExpenses.toLocaleString('id-ID')}</span>
+            </td>
+          </tr>
 
-        <tr>
-          <td className="pr-3 text-sm uppercase">
-            {MONTH[new Date().getMonth()]}
-          </td>
-          <td className="flex flex-row justify-between text-right">
-            <span>Rp</span>
-            <span>{totalExpensesThisMonth.toLocaleString('id-ID')}</span>
-          </td>
-        </tr>
+          <tr>
+            <td className="pr-3 text-sm uppercase">
+              {MONTH[new Date().getMonth()]}
+            </td>
+            <td className="flex flex-row justify-between text-right">
+              <span>Rp</span>
+              <span>{totalExpensesThisMonth.toLocaleString('id-ID')}</span>
+            </td>
+          </tr>
 
-        <tr>
-          <td className="pr-3 text-sm uppercase border-b">
-            {new Date().toLocaleDateString('id-ID', {
-              weekday: 'long',
-            })}
-          </td>
-          <td className="flex flex-row justify-between border-b">
-            <span>Rp</span>
-            <span>{totalExpensesToday.toLocaleString('id-ID')}</span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          <tr>
+            <td className="pr-3 text-sm uppercase border-b">
+              {new Date().toLocaleDateString('id-ID', {
+                weekday: 'long',
+              })}
+            </td>
+            <td className="flex flex-row justify-between border-b">
+              <span>Rp</span>
+              <span>{totalExpensesToday.toLocaleString('id-ID')}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   ) : (
     <p>unauthorized!</p>
   );

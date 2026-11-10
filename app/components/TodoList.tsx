@@ -25,7 +25,7 @@ export default function TodoList() {
   });
 
   return authStatus ? (
-    <section className="flex flex-col gap-3 items-center">
+    <section className="flex flex-col gap-3 items-center w-full h-full">
       <div className="flex gap-2">
         <button
           onClick={() => setFilter('all')}
@@ -46,7 +46,7 @@ export default function TodoList() {
           Completed
         </button>
       </div>
-      <ul className="flex flex-col gap-2 max-w-66 h-80 overflow-y-auto">
+      <ul className="flex flex-col gap-2 w-full min-h-0 overflow-y-auto">
         {filteredTodos.map((todo: Todo) => (
           <li key={todo.id}>
             <TodoTask id={todo.id} task={todo.Task} checked={todo.Status} />

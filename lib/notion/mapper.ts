@@ -26,14 +26,19 @@ export function mapDailyTaskItem(page: any) {
     'Read 15 min': page.properties['Read 15 min']?.checkbox || false,
     'Treadmill 20 min': page.properties['Treadmill 20 min']?.checkbox || false,
     'Drink 3 litre': page.properties['Drink 3 litre']?.checkbox || false,
-    'Creatine': page.properties['Creatine']?.checkbox || false,
-    'Yogurt': page.properties['Yogurt']?.checkbox || false,
+    Creatine: page.properties['Creatine']?.checkbox || false,
+    Yogurt: page.properties['Yogurt']?.checkbox || false,
     'Fish oil': page.properties['Fish oil']?.checkbox || false,
-    'Weight': page.properties['Weight']?.rich_text[0]?.plain_text || '',
-    'Blood pressure': page.properties['Blood pressure']?.rich_text[0]?.plain_text || '',
+    Weight: page.properties['Weight']?.rich_text[0]?.plain_text || '',
+    'Blood pressure':
+      page.properties['Blood pressure']?.rich_text[0]?.plain_text || '',
   };
 }
 
-export function mapFragments(page: any) {
-  return {};
+export function mapFragmentItem(page: any) {
+  return {
+    id: page.id,
+    Snippet: page.properties['Snippet']?.title[0]?.plain_text || '',
+    Type: page.properties['Type']?.select.name || '',
+  };
 }

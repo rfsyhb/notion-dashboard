@@ -22,17 +22,17 @@ export default function Home() {
 
   return (
     <div className="flex flex-col flex-1 p-2 px-4 items-center justify-center font-mono bg-background">
-      <main className="flex flex-col gap-2 items-center">
-        <div className="flex flex-roww items-center gap-2">
-          <Image
-            width={40}
-            height={40}
-            src={'/Notion_app_logo.png'}
-            alt="notion_icon"
-          />
-          <h2 className="text-lg font-semibold">RAFI&rsquo;s DASHBOARD</h2>
-        </div>
-        <section className="flex flex-col items-center gap-3">
+      <main className="flex flex-col gap-2 items-center w-full max-w-md h-[50vh]">
+        <div className="flex flex-col items-center">
+          <div className='flex flex-row  items-center'>
+            <Image
+              width={40}
+              height={40}
+              src={'/Notion_app_logo.png'}
+              alt="notion_icon"
+            />
+            <h2 className="text-lg font-semibold">RAFI&rsquo;s DASHBOARD</h2>
+          </div>
           <div className="flex flex-row gap-2 items-center">
             <span>hello world,</span>
             <div className="flex flex-row gap-1">
@@ -50,12 +50,14 @@ export default function Home() {
               </button>
             </div>
           </div>
+        </div>
+        <section className="flex flex-col items-center justify-center w-full min-h-0">
           {currentDisplay === '' && authData?.authenticated ? (
             <DailyTask />
           ) : (
             currentDisplay === '' && <p>unauthorized!</p>
           )}
-          <div className={`${currentDisplay === '' && 'hidden'}`}>
+          <div className={`${currentDisplay === '' && 'hidden'} w-full h-full flex justify-center`}>
             {currentDisplay === 'expenses' && <TotalExpenses />}
             {currentDisplay === 'todos' && <TodoList />}
           </div>
