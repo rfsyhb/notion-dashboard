@@ -25,7 +25,7 @@ export default function Home() {
     <div className="flex flex-col flex-1 p-2 px-4 items-center justify-center font-mono bg-background">
       <main className="flex flex-col gap-2 items-center w-full max-w-md h-[58vh]">
         <div className="flex flex-col items-center">
-          <div className="flex flex-row  items-center">
+          {/* <div className="flex flex-row items-center">
             <Image
               width={40}
               height={40}
@@ -33,7 +33,7 @@ export default function Home() {
               alt="notion_icon"
             />
             <h2 className="text-lg font-semibold">RAFI&rsquo;s DASHBOARD</h2>
-          </div>
+          </div> */}
           <div className="flex flex-row gap-2 items-center">
             <span>hello world,</span>
             <div className="flex flex-row gap-1">
