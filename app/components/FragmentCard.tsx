@@ -10,11 +10,14 @@ export default function FragmentCard(fragment: Fragment) {
 
   return (
     <div
-      className={`p-1 w-full flex border rounded-lg shadow-md hover:shadow-lg cursor-pointer ${
+      className={`relative p-1 w-full flex border rounded-lg shadow-md hover:shadow-lg cursor-pointer ${
         typeColors[fragment.Type] ?? ''
       }`}
     >
-      {fragment.Snippet}
+      <q className='p-2 pb-3 text-sans'>{fragment.Snippet}</q>
+      <span className="absolute bottom-0 right-0 text-xs bg-foreground text-background font-semibold pl-3 pr-2 rounded-ss-xl rounded-ee-md">
+        {fragment.Type}
+      </span>
     </div>
   );
 }
