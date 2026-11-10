@@ -129,7 +129,7 @@ export async function createDailyTask(date: string) {
       },
       Date: {
         date: {
-          start: date
+          start: date,
         },
       },
     },
@@ -161,7 +161,7 @@ export async function updateTodos(input: UpdateTodosInput) {
       }),
       ...(input.Status !== undefined && {
         Status: {
-        checkbox: input.Status,
+          checkbox: input.Status,
         },
       }),
     },
@@ -271,6 +271,46 @@ export async function updateDailyTask(input: UpdateDailyTaskInput) {
           ],
         },
       }),
+    },
+  });
+}
+
+export type CreateFragmentsInput = {
+  Snippet: string;
+  Type: 'Fact' | 'Insight' | 'Aphorism' | 'Principle';
+};
+
+export async function createFragments(input: CreateFragmentsInput) {
+  await requireAuth();
+
+  const dataSourceId = process.env.NOTION_FRAGMENTS_DATA_SOURCE_ID;
+
+  if (!dataSourceId) {
+    throw new Error('NOTION_FRAGMENTS_DATA_SOURCE_ID is not configured.');
+  }
+
+  return notion.pages.create({
+    parent: {
+      type: 'data_source_id',
+      data_source_id: dataSourceId,
+    },
+
+    properties: {
+      Snippet: {
+        title: [
+          {
+            type: 'text',
+            text: {
+              content: input.Snippet,
+            },
+          },
+        ],
+      },
+      Type: {
+        select: {
+          name: input.Type
+        }
+      }
     },
   });
 }

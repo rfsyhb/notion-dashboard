@@ -1,5 +1,7 @@
 import { mapFragmentItem } from '@/lib/notion/mapper';
+import { createFragments } from '@/lib/notion/mutations';
 import { queryDataSource } from '@/lib/notion/queries';
+import { isFullPage } from '@notionhq/client';
 
 export async function GET() {
   try {
@@ -16,7 +18,14 @@ export async function GET() {
       );
     }
 
-    const data = await queryDataSource(dataSourceId);
+    const data = await queryDataSource(dataSourceId, {
+      sorts: [
+        {
+          timestamp: 'created_time',
+          direction: 'descending',
+        },
+      ],
+    });
     const mappedData = data.data.map(mapFragmentItem);
 
     return Response.json({
@@ -30,6 +39,69 @@ export async function GET() {
     return Response.json(
       {
         message: 'Failed to fetch data from Notion.',
+      },
+      {
+        status: 500,
+      },
+    );
+  }
+}
+
+export async function POST(request: Request) {
+  try {
+    const formData = await request.formData();
+
+    const snippet = formData.get('snippet') as string;
+    const type = formData.get('type') as
+      | 'Fact'
+      | 'Insight'
+      | 'Aphorism'
+      | 'Principle';
+
+    if (typeof snippet !== 'string') {
+      return Response.json(
+        {
+          message: 'Invalid input data for snippet',
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+    if (typeof type !== 'string') {
+      return Response.json(
+        {
+          message: 'Invalid input data for snippet',
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+
+    const page = await createFragments({
+      Snippet: snippet,
+      Type: type,
+    });
+
+    if (!isFullPage(page)) {
+      throw new Error('Create page is not a full page');
+    }
+
+    return Response.json(
+      {
+        data: mapFragmentItem(page),
+      },
+      {
+        status: 201,
+      },
+    );
+  } catch (error) {
+    console.error(error);
+
+    return Response.json(
+      {
+        message: 'Failed to create fragment entry.',
       },
       {
         status: 500,

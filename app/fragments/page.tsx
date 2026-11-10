@@ -2,8 +2,9 @@
 
 import { z } from 'zod';
 import { getAuthStatus } from '@/lib/auth/auth';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { FormEvent, useState } from 'react';
+import { FRAGMENTS_QUERY_KEY } from '@/lib/hooks/useFragments';
 
 const formSchema = z.object({
   snippets: z.string().min(1, 'Snippets wajib diisi'),
@@ -20,6 +21,7 @@ const formSchema = z.object({
 export default function FragmentsPage() {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const queryClient = useQueryClient();
 
   const authQuery = useQuery({
     queryKey: ['auth'],
@@ -61,7 +63,7 @@ export default function FragmentsPage() {
     try {
       const requestFormData = new FormData();
 
-      requestFormData.append('snippets', result.data.snippets);
+      requestFormData.append('snippet', result.data.snippets);
       requestFormData.append('type', result.data.type);
 
       const response = await fetch('/api/fragments', {
@@ -76,6 +78,9 @@ export default function FragmentsPage() {
       }
 
       form.reset();
+      queryClient.invalidateQueries({
+        queryKey: FRAGMENTS_QUERY_KEY,
+      });
 
       setMessage('fragment added!');
     } catch (error) {
@@ -114,7 +119,7 @@ export default function FragmentsPage() {
         >
           {loading ? 'Adding...' : 'Add Fragment'}
         </button>
-        {message && <p className="text-red-500">{message}</p>}
+        {message && <p className="text-sm">{message}</p>}
       </form>
     </main>
   );
