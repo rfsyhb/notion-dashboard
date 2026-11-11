@@ -112,14 +112,16 @@ export default function FragmentsPage() {
           <option value="Aphorism">Aphorism</option>
           <option value="Principle">Principle</option>
         </select>
-        <button
-          type="submit"
-          disabled={loading}
-          className="bg-black cursor-pointer hover:bg-foreground/90 text-white p-2 rounded disabled:opacity-50"
-        >
-          {loading ? 'Adding...' : 'Add Fragment'}
-        </button>
-        {message && <p className="text-sm">{message}</p>}
+        <div className="flex flex-row gap-2">
+          <button
+            type="submit"
+            disabled={loading}
+            className="bg-black flex-2 cursor-pointer hover:bg-foreground/90 text-white p-2 rounded disabled:opacity-50"
+          >
+            {loading ? 'Adding...' : 'Add Fragment'}
+          </button>
+          <div className='flex-2'>{message && <p className="text-sm">{message}</p>}</div>
+        </div>
       </form>
     </main>
   );

@@ -84,10 +84,10 @@ export default function TodoPage() {
   }
 
   return (
-    <main className="h-screen p-8 items-center justify-center flex">
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <main className="h-screen p-4 items-center justify-center flex w-full max-w-md">
+      <form onSubmit={handleSubmit} className="w-full flex flex-col gap-2">
         <div>
-          <label className="mb-1 block">Task</label>
+          <label className="mb-1 block">To-do</label>
 
           <input
             type="text"
@@ -99,11 +99,13 @@ export default function TodoPage() {
           <button
             type="submit"
             disabled={loading}
-            className="rounded bg-black px-4 py-2 text-white disabled:opacity-50 hover:cursor-pointer hover:bg-foreground/90"
+            className="rounded bg-black w-full flex-2 px-4 py-2 text-white disabled:opacity-50 hover:cursor-pointer hover:bg-foreground/90"
           >
-            {loading ? 'Submitting...' : 'Submit'}
+            {loading ? 'Adding...' : 'Add new todo'}
           </button>
-          {message && <p className="text-sm">{message}</p>}
+          <div className="flex-2">
+            {message && <p className="text-sm">{message}</p>}
+          </div>
         </div>
       </form>
     </main>

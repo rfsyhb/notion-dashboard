@@ -111,8 +111,8 @@ export default function TestPage() {
   }
 
   return (
-    <main className="h-screen p-8 items-center justify-center flex">
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <main className="h-screen p-4 items-center justify-center flex w-full max-w-md">
+      <form onSubmit={handleSubmit} className="w-full flex flex-col gap-2">
         <div>
           <label className="mb-1 block">Product</label>
 
@@ -176,15 +176,17 @@ export default function TestPage() {
           )}
         </div>
 
-        <div className="flex flex-row items-center gap-2">
+        <div className="flex flex-row gap-2">
           <button
             type="submit"
             disabled={loading}
-            className="rounded bg-black px-4 py-2 text-white disabled:opacity-50 hover:cursor-pointer hover:bg-foreground/90"
+            className="rounded bg-black flex-2 px-4 py-2 text-white disabled:opacity-50 hover:cursor-pointer hover:bg-foreground/90"
           >
-            {loading ? 'Submitting...' : 'Submit'}
+            {loading ? 'Adding...' : 'Add new expense'}
           </button>
-          {message && <p className="text-sm">{message}</p>}
+          <div className="flex-2">
+            {message && <p className="text-sm">{message}</p>}
+          </div>
         </div>
       </form>
     </main>

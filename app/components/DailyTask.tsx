@@ -8,7 +8,7 @@ export function DailyTask() {
   if (isError) return <p>Failed to load daily tasks</p>;
 
   return (
-    <div className="flex flex-col gap-2 w-full max-w-md text-sm md:text-base">
+    <div className="flex flex-col gap-2 w-full h-ull max-w-md text-sm md:text-base">
       <DailyTaskInput
         key={`${data.id}-${data['Wake up at']}`}
         id={data.id}

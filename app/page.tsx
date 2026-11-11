@@ -22,9 +22,9 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col flex-1 p-2 px-4 items-center justify-center font-mono bg-background">
-      <main className="flex flex-col gap-2 items-center w-full max-w-md h-[58vh]">
-        <div className="flex flex-col items-center">
+    <div className="flex flex-col flex-1 p-2 px-4 items-center justify-center font-mono bg-background w-full">
+      <main className="flex flex-col items-center w-full max-w-md h-[58vh] gap-1">
+        <div className="flex flex-col items-center w-full">
           {/* <div className="flex flex-row items-center">
             <Image
               width={40}
@@ -58,7 +58,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <section className="flex flex-col items-center justify-center w-full min-h-0">
+        <section className="flex flex-col items-center justify-center w-full min-h-0 h-full">
           {currentDisplay === '' && authData?.authenticated ? (
             <DailyTask />
           ) : (
