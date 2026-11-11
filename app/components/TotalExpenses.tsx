@@ -71,7 +71,7 @@ export function TotalExpenses() {
     ) ?? 0;
 
   return authStatus ? (
-    <div className="flex flex-col justify-center w-full">
+    <div className="flex flex-col justify-center w-full gap-3 h-full">
       <div className="shrink p-2 px-3 rounded-md shadow-md w-full flex flex-row justify-between bg-gray-100 border">
         <div className="w-full flex justify-center items-center">
           <p className="text-sm md:text-base">spending</p>
@@ -115,8 +115,15 @@ export function TotalExpenses() {
           </tbody>
         </table>
       </div>
-      <div className='flex-1'>
-        {/* a */}
+      <div className="flex-1 border rounded-md h-full">
+        <div className="bg-gray-200 rounded-se-md rounded-ss-md p-2 border-b shadow-md">
+          <p>Latest expenses</p>
+        </div>
+        <ul className="h-full overflow-y-auto">
+          {expenseData.map((item) => (
+            <p key={item.id}>{item.Product}</p>
+          ))}
+        </ul>
       </div>
     </div>
   ) : (
