@@ -33,7 +33,7 @@ export default function TodoList() {
         >
           All
         </button>
-        <button
+        <button 
           onClick={() => setFilter('active')}
           className={`cursor-pointer px-2 py-1 rounded-md text-sm md:text-base transition-colors duration-200 ${filter === 'active' ? 'bg-mauve-500 text-white' : 'bg-stone-200 text-stone-700 hover:bg-stone-400'}`}
         >
@@ -46,7 +46,7 @@ export default function TodoList() {
           Completed
         </button>
       </div>
-      <ul className="flex flex-col gap-2 w-full min-h-0 overflow-y-auto px-2">
+      <ul className="flex flex-col gap-2 w-full min-h-0 overflow-y-auto px-2 py-1">
         {filteredTodos.map((todo: Todo) => (
           <li key={todo.id}>
             <TodoTask id={todo.id} task={todo.Task} checked={todo.Status} />

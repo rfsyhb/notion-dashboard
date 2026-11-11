@@ -74,9 +74,16 @@ export function TotalExpenses() {
     <div className="flex flex-col justify-center w-full gap-3 h-full">
       <div className="shrink p-2 px-3 rounded-md shadow-md w-full flex flex-row justify-between bg-gray-100 border">
         <div className="w-full flex justify-center items-center">
-          <p className="text-sm md:text-base">spending</p>
+          <p className="text-sm md:text-base">Today,{' '}
+            {new Intl.DateTimeFormat('id-ID', {
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric',
+              timeZone: 'Asia/Jakarta',
+            }).format(new Date())}
+          </p>
         </div>
-        <table className="text-right border-collapse tabular-nums w-fit text-sm md:text-base">
+        <table className="text-right border-collapse tabular-nums w-fit text-sm">
           <thead>
             <tr>
               <td colSpan={2} className="text-center"></td>
@@ -115,13 +122,28 @@ export function TotalExpenses() {
           </tbody>
         </table>
       </div>
-      <div className="flex-1 border rounded-md h-full">
+      <div className="flex-1 flex flex-col border rounded-md min-h-0">
         <div className="bg-gray-200 rounded-se-md rounded-ss-md p-2 border-b shadow-md">
           <p>Latest expenses</p>
         </div>
-        <ul className="h-full overflow-y-auto">
+        <ul className="h-full overflow-y-auto flex flex-col">
           {expenseData.map((item) => (
-            <p key={item.id}>{item.Product}</p>
+            <li
+              key={item.id}
+              className="rounded-md w-full bg-gray-100 p-1 px-2 cursor-pointer hover:bg-amber-50 flex justify-between"
+            >
+              <span className="flex-1 truncate">{item.Product}</span>
+              <div className="flex flex-row justify-between gap-1 flex-1 text-sm md:text-base">
+                <span>{item.Date}</span>
+                <span>
+                  {new Intl.NumberFormat('id-ID', {
+                    style: 'currency',
+                    currency: 'IDR',
+                    minimumFractionDigits: 0,
+                  }).format(item.IDR)}
+                </span>
+              </div>
+            </li>
           ))}
         </ul>
       </div>

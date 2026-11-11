@@ -20,7 +20,14 @@ export async function GET() {
       );
     }
 
-    const data = await queryDataSource(dataSourceId);
+    const data = await queryDataSource(dataSourceId, {
+      sorts: [
+        {
+          timestamp: 'created_time',
+          direction: 'descending',
+        },
+      ],
+    });
     const mappedData = data.data.map(mapExpensesItem);
 
     return Response.json({
