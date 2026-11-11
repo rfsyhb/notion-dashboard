@@ -122,11 +122,11 @@ export function TotalExpenses() {
           </tbody>
         </table>
       </div>
-      <div className="flex-1 flex flex-col border rounded-md min-h-0">
+      <div className="flex-1 flex flex-col border rounded-md min-h-0 shadow-md">
         <div className="bg-gray-200 rounded-se-md rounded-ss-md p-2 border-b shadow-md">
           <p>Latest expenses</p>
         </div>
-        <ul className="h-full overflow-y-auto flex flex-col">
+        <ul className="h-full overflow-y-auto flex flex-col rounded-b-md">
           {expenseData.map((item) => (
             <li
               key={item.id}
