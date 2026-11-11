@@ -23,7 +23,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col flex-1 p-2 px-4 items-center justify-center font-mono bg-background w-full">
-      <main className="flex flex-col items-center w-full max-w-md h-[58vh] gap-1">
+      <main className="flex flex-col items-center w-full max-w-md h-[65vh] gap-4">
         <div className="flex flex-col items-center w-full">
           {/* <div className="flex flex-row items-center">
             <Image
@@ -58,7 +58,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <section className="flex flex-col items-center justify-center w-full min-h-0 h-full">
+        <section className="order-first flex flex-col items-center justify-center w-full min-h-0 h-full">
           {currentDisplay === '' && authData?.authenticated ? (
             <DailyTask />
           ) : (
