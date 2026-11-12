@@ -5,6 +5,16 @@ import { requireAuth } from '../auth/require-auth';
 import { DailyTask } from '../dailytask';
 import { Todo } from '../todos';
 
+export async function updatePage(
+  pageId: string,
+  properties: Parameters<typeof notion.pages.update>[0]['properties'],
+) {
+  return notion.pages.update({
+    page_id: pageId,
+    properties,
+  });
+}
+
 export type CreateExpensesInput = {
   product: string;
   date: string;
@@ -308,9 +318,9 @@ export async function createFragments(input: CreateFragmentsInput) {
       },
       Type: {
         select: {
-          name: input.Type
-        }
-      }
+          name: input.Type,
+        },
+      },
     },
   });
 }
