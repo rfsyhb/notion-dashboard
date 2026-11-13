@@ -1,9 +1,8 @@
 import { isFullPage } from '@notionhq/client';
-
 import { queryDataSource } from '@/lib/notion/queries';
-import { mapExpensesItem } from '@/lib/notion/mapper';
-import { createExpenses } from '@/lib/notion/mutations';
 import { uploadFileToNotion } from '@/lib/notion/upload';
+import { mapExpenseItem } from '@/features/expenses/mapper';
+import { createExpense } from '@/features/expenses/mutations';
 
 export async function GET() {
   try {
@@ -28,7 +27,7 @@ export async function GET() {
         },
       ],
     });
-    const mappedData = data.data.map(mapExpensesItem);
+    const mappedData = data.data.filter(isFullPage).map(mapExpenseItem);
 
     return Response.json({
       data: mappedData,
@@ -105,10 +104,10 @@ export async function POST(request: Request) {
       imageName = image.name;
     }
 
-    const page = await createExpenses({
-      product,
-      date,
-      idr: Number(idr),
+    const page = await createExpense({
+      Product: product,
+      Date: date,
+      IDR: Number(idr),
       imageFileUploadId,
       imageName,
     });
@@ -119,7 +118,7 @@ export async function POST(request: Request) {
 
     return Response.json(
       {
-        data: mapExpensesItem(page),
+        data: mapExpenseItem(page),
       },
       {
         status: 201,

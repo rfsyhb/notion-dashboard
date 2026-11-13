@@ -3,11 +3,11 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import { ClipboardList, Sparkles, Wallet } from 'lucide-react';
-import { TotalExpenses } from './components/TotalExpenses';
 import { DailyTask } from './components/DailyTask';
 import { useAuth } from '@/lib/hooks/useAuth';
 import FragmentList from '@/features/fragments/components/FragmentList';
 import TodoList from '@/features/todos/components/TodoList';
+import { ExpenseList } from '@/features/expenses/components/ExpenseList';
 
 export default function Home() {
   const [currentDisplay, setCurrentDisplay] = useState('');
@@ -67,7 +67,7 @@ export default function Home() {
           <div
             className={`${currentDisplay === '' && 'hidden'} w-full h-full flex justify-center`}
           >
-            {currentDisplay === 'expenses' && <TotalExpenses />}
+            {currentDisplay === 'expenses' && <ExpenseList />}
             {currentDisplay === 'todos' && <TodoList />}
             {currentDisplay === 'fragments' && <FragmentList />}
           </div>

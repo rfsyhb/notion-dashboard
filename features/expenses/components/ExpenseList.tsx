@@ -1,10 +1,48 @@
-'use client';
-
-import { useQuery } from '@tanstack/react-query';
-import { getExpenses } from '@/lib/expenses';
 import { getAuthStatus } from '@/lib/auth/auth';
+import { AUTH_QUERY_KEY } from '@/lib/hooks/useAuth';
+import { useQuery } from '@tanstack/react-query';
+import { useExpenses } from '../hooks/useExpenses';
 
-export function TotalExpenses() {
+export function ExpenseList() {
+  const { data, isLoading, isError, error } = useExpenses();
+  const authQuery = useQuery({
+    queryKey: AUTH_QUERY_KEY,
+    queryFn: getAuthStatus,
+  });
+  const authStatus = authQuery.data?.authenticated;
+
+  if (!authStatus) return <p>unauthorized!</p>;
+  if (isLoading) return <p>loading...</p>;
+  if (isError && !data) return <p>{error.message}</p>;
+  if (!data) {
+    return <p>No data available</p>;
+  }
+
+  // TIMING
+  const now = new Date();
+  const currentDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+  const currentMonth = `${now.getFullYear()}-${String(
+    now.getMonth() + 1,
+  ).padStart(2, '0')}`;
+
+  const currentDateExpensesData = data.filter((v) => v.Date == currentDate);
+  const currentMonthExpensesData = data.filter((v) =>
+    v.Date.startsWith(currentMonth),
+  );
+
+  const totalExpenses =
+    data.reduce((total, expense) => total + expense.IDR, 0) ?? 0;
+  const totalExpensesThisMonth =
+    currentMonthExpensesData.reduce(
+      (total, expense) => total + expense.IDR,
+      0,
+    ) ?? 0;
+  const totalExpensesToday =
+    currentDateExpensesData.reduce(
+      (total, expense) => total + expense.IDR,
+      0,
+    ) ?? 0;
+
   const MONTH = [
     'January',
     'February',
@@ -20,61 +58,12 @@ export function TotalExpenses() {
     'December',
   ];
 
-  const authQuery = useQuery({
-    queryKey: ['auth'],
-    queryFn: getAuthStatus,
-  });
-  const authStatus = authQuery.data?.authenticated;
-
-  const expensesQuery = useQuery({
-    queryKey: ['expenses'],
-    queryFn: getExpenses,
-  });
-
-  if (expensesQuery.isPending) {
-    return <p>Loading...</p>;
-  }
-
-  if (expensesQuery.isError) {
-    return <p>{expensesQuery.error.message}</p>;
-  }
-
-  const expenseData = expensesQuery.data.data;
-
-  const now = new Date();
-  // ex "2026-09"
-  const currentMonth = `${now.getFullYear()}-${String(
-    now.getMonth() + 1,
-  ).padStart(2, '0')}`;
-  const currentMonthExpensesData = expensesQuery.data.data.filter((v) =>
-    v.Date.startsWith(currentMonth),
-  );
-  // ex "2026-09-24"
-  const currentDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
-  // console.log('currentDate', currentDate);
-  const currentDateExpensesData = expensesQuery.data.data.filter(
-    (v) => v.Date == currentDate,
-  );
-  // console.log('currentDateExpensesData', currentDateExpensesData);
-
-  const totalExpenses =
-    expenseData.reduce((total, expense) => total + expense.IDR, 0) ?? 0;
-  const totalExpensesThisMonth =
-    currentMonthExpensesData.reduce(
-      (total, expense) => total + expense.IDR,
-      0,
-    ) ?? 0;
-  const totalExpensesToday =
-    currentDateExpensesData.reduce(
-      (total, expense) => total + expense.IDR,
-      0,
-    ) ?? 0;
-
-  return authStatus ? (
+  return (
     <div className="flex flex-col justify-center w-full gap-3 h-full">
       <div className="shrink p-2 px-3 rounded-md shadow-md w-full flex flex-row justify-between bg-gray-100 border">
         <div className="w-full flex justify-center items-center">
-          <p className="text-sm md:text-base">Today,{' '}
+          <p className="text-sm md:text-base">
+            Today,{' '}
             {new Intl.DateTimeFormat('id-ID', {
               day: 'numeric',
               month: 'long',
@@ -127,7 +116,7 @@ export function TotalExpenses() {
           <p>Latest expenses</p>
         </div>
         <ul className="h-full overflow-y-auto flex flex-col rounded-b-md">
-          {expenseData.map((item) => (
+          {data.map((item) => (
             <li
               key={item.id}
               className="rounded-md w-full bg-gray-100 p-1 px-2 cursor-pointer hover:bg-amber-50 flex justify-between"
@@ -148,7 +137,5 @@ export function TotalExpenses() {
         </ul>
       </div>
     </div>
-  ) : (
-    <p>unauthorized!</p>
   );
 }
