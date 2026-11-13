@@ -1,5 +1,5 @@
-import { mapFragmentItem } from '@/lib/notion/mapper';
-import { createFragments } from '@/lib/notion/mutations';
+import { mapFragmentItem } from '@/features/fragments/mapper';
+import { createFragments } from '@/features/fragments/mutations';
 import { queryDataSource } from '@/lib/notion/queries';
 import { isFullPage } from '@notionhq/client';
 
@@ -26,7 +26,8 @@ export async function GET() {
         },
       ],
     });
-    const mappedData = data.data.map(mapFragmentItem);
+
+    const mappedData = data.data.filter(isFullPage).map(mapFragmentItem);
 
     return Response.json({
       data: mappedData,

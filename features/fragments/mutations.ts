@@ -2,8 +2,9 @@ import 'server-only';
 
 import { notion } from '@/lib/notion/client';
 import { requireAuth } from '@/lib/auth/require-auth';
+import type { CreateFragmentInput } from './types'
 
-export async function createFragments(input) {
+export async function createFragments(input: CreateFragmentInput) {
   await requireAuth(); // make sure end user authorized
 
   const dataSourceId = process.env.NOTION_FRAGMENTS_DATA_SOURCE_ID;

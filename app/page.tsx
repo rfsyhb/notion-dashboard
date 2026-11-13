@@ -7,7 +7,7 @@ import { TotalExpenses } from './components/TotalExpenses';
 import { DailyTask } from './components/DailyTask';
 import { useAuth } from '@/lib/hooks/useAuth';
 import TodoList from './components/TodoList';
-import FragmentList from './components/FragmentList';
+import FragmentList from '@/features/fragments/components/FragmentList';
 
 export default function Home() {
   const [currentDisplay, setCurrentDisplay] = useState('');
