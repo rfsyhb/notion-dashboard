@@ -3,7 +3,6 @@ import 'server-only';
 import { notion } from './client';
 import { requireAuth } from '../auth/require-auth';
 import { DailyTask } from '../dailytask';
-import { Todo } from '../todos';
 
 export async function updatePage(
   pageId: string,
@@ -77,40 +76,6 @@ export async function createExpenses(input: CreateExpensesInput) {
   });
 }
 
-export type CreateTodosInput = {
-  task: string;
-};
-
-export async function createTodos(input: CreateTodosInput) {
-  await requireAuth();
-
-  const dataSourceId = process.env.NOTION_TODOS_DATA_SOURCE_ID;
-
-  if (!dataSourceId) {
-    throw new Error('NOTION_TODOS_DATA_SOURCE_ID is not configured.');
-  }
-
-  return notion.pages.create({
-    parent: {
-      type: 'data_source_id',
-      data_source_id: dataSourceId,
-    },
-
-    properties: {
-      Task: {
-        title: [
-          {
-            type: 'text',
-            text: {
-              content: input.task,
-            },
-          },
-        ],
-      },
-    },
-  });
-}
-
 export async function createDailyTask(date: string) {
   await requireAuth();
 
@@ -142,38 +107,6 @@ export async function createDailyTask(date: string) {
           start: date,
         },
       },
-    },
-  });
-}
-
-export type UpdateTodosInput = Omit<Todo, 'Task' | 'Status'> & {
-  Task?: string;
-  Status?: boolean;
-};
-
-export async function updateTodos(input: UpdateTodosInput) {
-  await requireAuth();
-
-  return notion.pages.update({
-    page_id: input.id,
-    properties: {
-      ...(input.Task !== undefined && {
-        Task: {
-          title: [
-            {
-              type: 'text',
-              text: {
-                content: input.Task,
-              },
-            },
-          ],
-        },
-      }),
-      ...(input.Status !== undefined && {
-        Status: {
-          checkbox: input.Status,
-        },
-      }),
     },
   });
 }

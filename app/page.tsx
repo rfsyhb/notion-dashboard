@@ -6,8 +6,8 @@ import { ClipboardList, Sparkles, Wallet } from 'lucide-react';
 import { TotalExpenses } from './components/TotalExpenses';
 import { DailyTask } from './components/DailyTask';
 import { useAuth } from '@/lib/hooks/useAuth';
-import TodoList from './components/TodoList';
 import FragmentList from '@/features/fragments/components/FragmentList';
+import TodoList from '@/features/todos/components/TodoList';
 
 export default function Home() {
   const [currentDisplay, setCurrentDisplay] = useState('');

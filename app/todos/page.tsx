@@ -4,7 +4,7 @@ import { FormEvent, useState } from 'react';
 import { z } from 'zod';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getAuthStatus } from '@/lib/auth/auth';
-import { TODOS_QUERY_KEY } from '@/lib/hooks/useTodos';
+import { TODOS_QUERY_KEY } from '@/features/todos/hooks/useTodos';
 
 const formSchema = z.object({
   task: z.string().min(1, 'Task title wajib diisi'),

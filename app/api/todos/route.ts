@@ -1,7 +1,7 @@
-import { mapTodosItem } from '@/lib/notion/mapper';
-import { createTodos, updateTodos } from '@/lib/notion/mutations';
+import { mapTodoItem } from '@/features/todos/mapper';
+import { createTodos, updateTodo } from '@/features/todos/mutations';
 import { queryDataSource } from '@/lib/notion/queries';
-import { isFullPage } from '@notionhq/client';
+import { isFullPage, PageObjectResponse } from '@notionhq/client';
 
 export async function GET() {
   try {
@@ -26,7 +26,7 @@ export async function GET() {
         },
       ],
     });
-    const mappedData = data.data.map(mapTodosItem);
+    const mappedData = data.data.filter(isFullPage).map(mapTodoItem);
 
     return Response.json({
       data: mappedData,
@@ -64,7 +64,7 @@ export async function POST(req: Request) {
     }
 
     const page = await createTodos({
-      task,
+      Task: task,
     });
 
     if (!isFullPage(page)) {
@@ -73,7 +73,7 @@ export async function POST(req: Request) {
 
     return Response.json(
       {
-        data: mapTodosItem(page),
+        data: mapTodoItem(page),
       },
       {
         status: 201,
@@ -97,8 +97,10 @@ export async function PATCH(request: Request) {
   try {
     const body = await request.json();
 
-    const updatedTask = await updateTodos(body);
-    return Response.json({ data: mapTodosItem(updatedTask) });
+    const updatedTask = await updateTodo(body);
+    return Response.json({
+      data: mapTodoItem(updatedTask as PageObjectResponse),
+    });
   } catch (error) {
     console.error(error);
 

@@ -1,13 +1,8 @@
-import { useUpdateTodos } from '@/lib/hooks/useTodos';
+import { useUpdateTodo } from '../hooks/useTodos';
+import type { TodoCardProps } from '../types';
 
-type TodoTaskProps = {
-  id: string;
-  task: string;
-  checked: boolean;
-};
-
-export function TodoTask({ id, task, checked }: TodoTaskProps) {
-  const { mutate, isPending } = useUpdateTodos();
+export function TodoCard(props: TodoCardProps) {
+  const { mutate, isPending } = useUpdateTodo();
 
   return (
     <label
@@ -19,11 +14,11 @@ export function TodoTask({ id, task, checked }: TodoTaskProps) {
     >
       <input
         type="checkbox"
-        checked={checked}
+        checked={props.Status}
         disabled={isPending}
         onChange={(event) => {
           mutate({
-            id,
+            id: props.id,
             Status: event.target.checked,
           });
         }}
@@ -40,10 +35,10 @@ export function TodoTask({ id, task, checked }: TodoTaskProps) {
       <span
         className={`
           select-none transition-all duration-200
-          ${checked ? 'text-muted-foreground line-through' : ''}
+          ${status ? 'text-muted-foreground line-through' : ''}
         `}
       >
-        {task}
+        {props.Task}
       </span>
     </label>
   );

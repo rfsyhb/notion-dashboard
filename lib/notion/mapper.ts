@@ -8,15 +8,6 @@ export function mapExpensesItem(page: any) {
   };
 }
 
-export function mapTodosItem(page: any) {
-  return {
-    id: page.id,
-    Task: page.properties['Task']?.title[0]?.plain_text || '',
-    Status: page.properties['Status']?.checkbox || false,
-    'Created time': page.properties['Created time']?.created_time || '',
-  };
-}
-
 export function mapDailyTaskItem(page: any) {
   return {
     id: page.id,
