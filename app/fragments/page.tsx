@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { getAuthStatus } from '@/lib/auth/auth';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { FormEvent, useState } from 'react';
-import { FRAGMENTS_QUERY_KEY } from '@/lib/hooks/useFragments';
+import { FRAGMENTS_QUERY_KEY } from '@/features/fragments/hooks/useFragments';
 
 const formSchema = z.object({
   snippets: z.string().min(1, 'Snippets wajib diisi'),
