@@ -6,12 +6,16 @@ import { z } from 'zod';
 import { getToday } from '@/lib/helper';
 import { useQuery } from '@tanstack/react-query';
 import { getAuthStatus } from '@/lib/auth/auth';
+import { EXPENSE_CATEGORIES } from '@/features/expenses/types';
 
 const formSchema = z.object({
   product: z.string().min(1, 'Product wajib diisi'),
   date: z.string().min(1, 'Date wajib diisi'),
 
   idr: z.coerce.number().positive('IDR harus lebih dari 0'),
+  category: z.enum(EXPENSE_CATEGORIES, {
+    error: 'Category wajib dipilih',
+  }),
 
   image: z
     .instanceof(File)
@@ -66,6 +70,7 @@ export default function TestPage() {
       product: formData.get('product'),
       date: formData.get('date'),
       idr: formData.get('idr'),
+      category: formData.get('category'),
       image: formData.get('image'),
     });
 
@@ -83,6 +88,7 @@ export default function TestPage() {
 
       requestFormData.append('product', result.data.product);
       requestFormData.append('date', result.data.date);
+      requestFormData.append('category', result.data.category);
       requestFormData.append('idr', result.data.idr.toString());
       requestFormData.append('image', result.data.image);
 
@@ -145,6 +151,28 @@ export default function TestPage() {
         </div>
 
         <div>
+          <label className="mb-1 block">Category</label>
+
+          <select
+            id="category"
+            name="category"
+            defaultValue=""
+            className="w-full rounded border p-2"
+            required
+          >
+            <option value="" disabled>
+              Select category
+            </option>
+
+            {EXPENSE_CATEGORIES.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
           <label className="mb-1 block">Image</label>
 
           <input
@@ -176,7 +204,7 @@ export default function TestPage() {
           )}
         </div>
 
-        <div className="flex flex-row gap-2">
+        <div className="flex flex-row gap-2 items-center">
           <button
             type="submit"
             disabled={loading}

@@ -39,6 +39,12 @@ export async function createExpense(input: InputExpensePayload) {
         number: input.IDR,
       },
 
+      Category: {
+        select: {
+          name: input.Category,
+        },
+      },
+
       ...(input.imageFileUploadId && {
         Image: {
           files: [

@@ -3,6 +3,7 @@ import { queryDataSource } from '@/lib/notion/queries';
 import { uploadFileToNotion } from '@/lib/notion/upload';
 import { mapExpenseItem } from '@/features/expenses/mapper';
 import { createExpense } from '@/features/expenses/mutations';
+import { isExpenseCategory } from '@/features/expenses/utils';
 
 export async function GET() {
   try {
@@ -55,6 +56,11 @@ export async function POST(request: Request) {
     const product = formData.get('product') as string;
     const date = formData.get('date') as string;
     const idr = formData.get('idr') as string;
+    const rawCategory = formData.get('category');
+    const category =
+      typeof rawCategory === 'string' && isExpenseCategory(rawCategory)
+        ? rawCategory
+        : 'Other';
     const image = formData.get('image') as File | null;
     const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
@@ -108,6 +114,7 @@ export async function POST(request: Request) {
       Product: product,
       Date: date,
       IDR: Number(idr),
+      Category: category,
       imageFileUploadId,
       imageName,
     });
