@@ -8,6 +8,7 @@ import { useAuth } from '@/lib/hooks/useAuth';
 import FragmentList from '@/features/fragments/components/FragmentList';
 import TodoList from '@/features/todos/components/TodoList';
 import { ExpenseList } from '@/features/expenses/components/ExpenseList';
+import { AlertCenter } from './components/AlertCenter';
 
 export default function Home() {
   const [currentDisplay, setCurrentDisplay] = useState('');
@@ -62,7 +63,7 @@ export default function Home() {
           {currentDisplay === '' && authData?.authenticated ? (
             <DailyTask />
           ) : (
-            currentDisplay === '' && <p>unauthorized!</p>
+            currentDisplay === '' && <AlertCenter text="unauthorized!" />
           )}
           <div
             className={`${currentDisplay === '' && 'hidden'} w-full h-full flex justify-center`}

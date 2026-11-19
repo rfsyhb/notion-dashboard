@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getAuthStatus } from '@/lib/auth/auth';
 import { TODOS_QUERY_KEY } from '@/features/todos/hooks/useTodos';
+import { AlertCenter } from '../components/AlertCenter';
 
 const formSchema = z.object({
   task: z.string().min(1, 'Task title wajib diisi'),
@@ -25,11 +26,7 @@ export default function TodoPage() {
   }
 
   if (authQuery.data?.authenticated !== true) {
-    return (
-      <p className="w-full h-screen flex items-center justify-center">
-        unauthorized!
-      </p>
-    );
+    return <AlertCenter text="unauthorized!" />;
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -84,7 +81,7 @@ export default function TodoPage() {
   }
 
   return (
-    <main className="h-screen p-4 items-center justify-center flex w-full max-w-md">
+    <main className="h-screen p-4 items-center justify-center flex w-full max-w-md font-mono">
       <form onSubmit={handleSubmit} className="w-full flex flex-col gap-2">
         <div>
           <label className="mb-1 block">To-do</label>

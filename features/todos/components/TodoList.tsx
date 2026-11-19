@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useTodos } from '../hooks/useTodos';
 import { Todo } from '../types';
 import { TodoCard } from './TodoCard';
+import { AlertCenter } from '@/app/components/AlertCenter';
 
 export default function TodoList() {
   const [currentFilter, setCurrentFilter] = useState<
@@ -17,13 +18,9 @@ export default function TodoList() {
     queryFn: getAuthStatus,
   });
 
-  if (isLoading) return <p>Loading...</p>;
-  if (isError && !data) {
-    return <p>Failed to load todos</p>;
-  }
-  if (!data) {
-    return <p>No data available</p>;
-  }
+  if (isLoading) return <AlertCenter text="loading..." />;
+  if (isError && !data) return <AlertCenter text="failed to load todos" />;
+  if (!data) return <AlertCenter text="no data available" />;
 
   const filteredTodos = data.filter((todo: Todo) => {
     if (currentFilter === 'active') return !todo.Status;

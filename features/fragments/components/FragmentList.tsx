@@ -1,19 +1,14 @@
 import FragmentCard from './FragmentCard';
 import { useFragments } from '../hooks/useFragments';
 import type { Fragment } from '../types';
+import { AlertCenter } from '@/app/components/AlertCenter';
 
 export default function FragmentList() {
   const { data, isLoading, isError } = useFragments();
 
-  if (isLoading) return <p>Loading...</p>;
-
-  if (isError && !data) {
-    return <p>Failed to load fragments</p>;
-  }
-
-  if (!data) {
-    return <p>No data available</p>;
-  }
+    if (isLoading) return <AlertCenter text="loading..." />;
+    if (isError && !data) return <AlertCenter text="failed to load fragments" />;
+    if (!data) return <AlertCenter text="no data available" />;
 
   return (
     <section className="h-full w-full flex flex-col bg-olive-200 border shadow-md rounded-md">

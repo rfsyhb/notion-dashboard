@@ -1,11 +1,13 @@
 import { useDailyTask } from '@/lib/hooks/useDailyTask';
 import { DailyTaskInput } from './DailyTaskInput';
 import { DailyTaskCheckbox } from './DailyTaskCheckbox';
+import { AlertCenter } from './AlertCenter';
 
 export function DailyTask() {
   const { data, isPending, isError } = useDailyTask();
-  if (isPending) return <p>Loading...</p>;
-  if (isError) return <p>Failed to load daily tasks</p>;
+    if (isPending) return <AlertCenter text="loading..." />;
+    if (isError && !data) return <AlertCenter text="failed to load daily task" />;
+    if (!data) return <AlertCenter text="no data available" />;
 
   return (
     <div className="flex flex-col gap-2 w-full h-ull max-w-md text-sm md:text-base">

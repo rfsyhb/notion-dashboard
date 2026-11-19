@@ -3,6 +3,7 @@ import { AUTH_QUERY_KEY } from '@/lib/hooks/useAuth';
 import { useQuery } from '@tanstack/react-query';
 import { useExpenses } from '../hooks/useExpenses';
 import { categorizedExpenses, formatMonth } from '../utils';
+import { AlertCenter } from '@/app/components/AlertCenter';
 
 export function ExpenseList() {
   const { data, isLoading, isError, error } = useExpenses();
@@ -12,8 +13,8 @@ export function ExpenseList() {
   });
   const authStatus = authQuery.data?.authenticated;
 
-  if (!authStatus) return <p>unauthorized!</p>;
-  if (isLoading) return <p>loading...</p>;
+  if (!authStatus) return <AlertCenter text="unauthorized!" />;
+  if (isLoading) return <AlertCenter text="loading..." />;
   if (isError && !data) return <p>{error.message}</p>;
   if (!data) {
     return <p>No data available</p>;
@@ -121,7 +122,9 @@ export function ExpenseList() {
           {Object.entries(categorizedData).map(([month, expenses]) => (
             <div key={month} className="w-full">
               <div className="sticky top-0 z-10 flex flex-row justify-between bg-gray-300 px-1 shadow-sm">
-                <h2 className='font-semibold uppercase'>{formatMonth(month)}</h2>
+                <h2 className="font-semibold uppercase">
+                  {formatMonth(month)}
+                </h2>
                 <p>
                   {new Intl.NumberFormat('id-ID', {
                     style: 'currency',

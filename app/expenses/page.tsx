@@ -7,6 +7,7 @@ import { getToday } from '@/lib/helper';
 import { useQuery } from '@tanstack/react-query';
 import { getAuthStatus } from '@/lib/auth/auth';
 import { EXPENSE_CATEGORIES } from '@/features/expenses/types';
+import { AlertCenter } from '../components/AlertCenter';
 
 const formSchema = z.object({
   product: z.string().min(1, 'Product wajib diisi'),
@@ -53,11 +54,7 @@ export default function TestPage() {
   }
 
   if (authQuery.data?.authenticated !== true) {
-    return (
-      <p className="w-full h-screen flex items-center justify-center">
-        unauthorized!
-      </p>
-    );
+    return <AlertCenter text="unauthorized!" />;
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -117,7 +114,7 @@ export default function TestPage() {
   }
 
   return (
-    <main className="h-screen p-4 items-center justify-center flex w-full max-w-md">
+    <main className="h-screen p-4 items-center justify-center flex w-full max-w-md font-mono">
       <form onSubmit={handleSubmit} className="w-full flex flex-col gap-2">
         <div>
           <label className="mb-1 block">Product</label>

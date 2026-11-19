@@ -5,6 +5,7 @@ import { getAuthStatus } from '@/lib/auth/auth';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { FormEvent, useState } from 'react';
 import { FRAGMENTS_QUERY_KEY } from '@/features/fragments/hooks/useFragments';
+import { AlertCenter } from '../components/AlertCenter';
 
 const formSchema = z.object({
   snippets: z.string().min(1, 'Snippets wajib diisi'),
@@ -33,11 +34,7 @@ export default function FragmentsPage() {
   }
 
   if (authQuery.data?.authenticated !== true) {
-    return (
-      <p className="w-full h-screen flex items-center justify-center">
-        unauthorized!
-      </p>
-    );
+    return <AlertCenter text="unauthorized!" />;
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -93,7 +90,7 @@ export default function FragmentsPage() {
   }
 
   return (
-    <main className="w-full h-screen flex items-center justify-center">
+    <main className="w-full h-screen flex items-center justify-center font-mono">
       <form
         onSubmit={handleSubmit}
         className="flex flex-col gap-4 w-full max-w-md p-4 rounded"
@@ -120,7 +117,9 @@ export default function FragmentsPage() {
           >
             {loading ? 'Adding...' : 'Add Fragment'}
           </button>
-          <div className='flex-2'>{message && <p className="text-sm">{message}</p>}</div>
+          <div className="flex-2">
+            {message && <p className="text-sm">{message}</p>}
+          </div>
         </div>
       </form>
     </main>
