@@ -2,6 +2,7 @@ import { getAuthStatus } from '@/lib/auth/auth';
 import { AUTH_QUERY_KEY } from '@/lib/hooks/useAuth';
 import { useQuery } from '@tanstack/react-query';
 import { useExpenses } from '../hooks/useExpenses';
+import { categorizedExpenses, formatMonth } from '../utils';
 
 export function ExpenseList() {
   const { data, isLoading, isError, error } = useExpenses();
@@ -42,6 +43,7 @@ export function ExpenseList() {
       (total, expense) => total + expense.IDR,
       0,
     ) ?? 0;
+  const categorizedData = categorizedExpenses(data);
 
   const MONTH = [
     'January',
@@ -115,26 +117,44 @@ export function ExpenseList() {
         <div className="bg-gray-200 rounded-se-md rounded-ss-md p-2 border-b shadow-md">
           <p>Latest expenses</p>
         </div>
-        <ul className="h-full overflow-y-auto flex flex-col rounded-b-md">
-          {data.map((item) => (
-            <li
-              key={item.id}
-              className="rounded-md w-full bg-gray-100 p-1 px-2 cursor-pointer hover:bg-amber-50 flex justify-between"
-            >
-              <span className="flex-1 truncate">{item.Product}</span>
-              <div className="flex flex-row justify-between gap-1 flex-1 text-sm md:text-base">
-                <span>{item.Date}</span>
-                <span>
+        <div className="h-full overflow-y-auto">
+          {Object.entries(categorizedData).map(([month, expenses]) => (
+            <div key={month} className="w-full">
+              <div className="sticky top-0 z-10 flex flex-row justify-between bg-gray-300 px-1 shadow-sm">
+                <h2 className='font-semibold uppercase'>{formatMonth(month)}</h2>
+                <p>
                   {new Intl.NumberFormat('id-ID', {
                     style: 'currency',
                     currency: 'IDR',
                     minimumFractionDigits: 0,
-                  }).format(item.IDR)}
-                </span>
+                  }).format(
+                    expenses.reduce((total, expense) => total + expense.IDR, 0),
+                  )}
+                </p>
               </div>
-            </li>
+              <ul className="flex flex-col rounded-b-md">
+                {expenses?.map((item) => (
+                  <li
+                    key={item.id}
+                    className="rounded-md w-full bg-gray-100 p-1 px-2 cursor-pointer hover:bg-amber-50 flex justify-between"
+                  >
+                    <span className="flex-1 truncate">{item.Product}</span>
+                    <div className="flex flex-row justify-between gap-1 flex-1 text-sm md:text-base">
+                      <span className="text-sm">{item.Date}</span>
+                      <span>
+                        {new Intl.NumberFormat('id-ID', {
+                          style: 'currency',
+                          currency: 'IDR',
+                          minimumFractionDigits: 0,
+                        }).format(item.IDR)}
+                      </span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
     </div>
   );
