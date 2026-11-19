@@ -29,7 +29,7 @@ export default function TodoList() {
   });
 
   const authStatus = authQuery.data?.authenticated;
-  if (!authStatus) return <p>unauthorized!</p>;
+  if (!authStatus) return <AlertCenter text="unauthorized!" />;
 
   return (
     <section className="flex flex-col items-center w-full h-full rounded-md border bg-stone-200 shadow-md">
