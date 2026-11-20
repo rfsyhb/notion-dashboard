@@ -8,7 +8,7 @@ export const useIncome = () => {
 
       if (!response.ok) throw new Error('Failed to fetch income');
 
-      return (await response.json()) as { income: number };
+      return (await response.json()) as { income: string };
     },
     staleTime: Infinity,
   });

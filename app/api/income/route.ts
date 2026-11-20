@@ -5,7 +5,7 @@ export async function GET() {
   console.log('getting income');
   console.log(process.env.MONTHLY_INCOME);
 
-  const income = Number(process.env.MONTHLY_INCOME);
+  const income = process.env.MONTHLY_INCOME;
 
   return Response.json({ income });
 }

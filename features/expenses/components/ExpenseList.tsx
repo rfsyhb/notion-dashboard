@@ -19,7 +19,7 @@ export function ExpenseList() {
     queryFn: getAuthStatus,
   });
   const authStatus = authQuery.data?.authenticated;
-  const monthlyIncome = dataIncome?.income ?? 0;
+  const monthlyIncome = dataIncome?.income ?? '';
 
   if (!authStatus) return <AlertCenter text="unauthorized!" />;
   if (isLoading) return <AlertCenter text="loading..." />;
@@ -134,7 +134,7 @@ export function ExpenseList() {
             );
             const { value, status } = calculateNetBalance(
               totalExpenses,
-              monthlyIncome,
+              Number(monthlyIncome),
             );
 
             return (
