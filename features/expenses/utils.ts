@@ -2,6 +2,7 @@ import {
   EXPENSE_CATEGORIES,
   type ExpenseCategory,
   type Expense,
+  type NetBalance,
 } from './types';
 
 export const isExpenseCategory = (val: string): val is ExpenseCategory =>
@@ -27,4 +28,21 @@ export const formatMonth = (month: string) => {
     year: 'numeric',
     timeZone: 'UTC',
   }).format(new Date(`${month}-01T00:00:00Z`));
+};
+
+export const formatIDR = (value: number) => {
+  return new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    minimumFractionDigits: 0,
+  }).format(value);
+};
+
+export const calculateNetBalance = (expense: number, income: number): NetBalance => {
+  // console.log(income)
+  const value = income - expense;
+  // console.log(expense)
+  const status = value > 0 ? 'surplus' : value < 0 ? 'deficit' : 'balanced';
+
+  return { value, status };
 };

@@ -28,3 +28,8 @@ export type InputExpensePayload = Omit<Expense, 'id'> & {
   imageFileUploadId?: string;
   imageName?: string;
 };
+
+export type NetBalance = {
+  value: number;
+  status: 'surplus' | 'deficit' | 'balanced';
+};

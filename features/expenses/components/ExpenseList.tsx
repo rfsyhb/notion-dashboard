@@ -2,21 +2,29 @@ import { getAuthStatus } from '@/lib/auth/auth';
 import { AUTH_QUERY_KEY } from '@/lib/hooks/useAuth';
 import { useQuery } from '@tanstack/react-query';
 import { useExpenses } from '../hooks/useExpenses';
-import { categorizedExpenses, formatMonth } from '../utils';
+import {
+  calculateNetBalance,
+  categorizedExpenses,
+  formatIDR,
+  formatMonth,
+} from '../utils';
 import { AlertCenter } from '@/app/components/AlertCenter';
+import { useIncome } from '@/lib/hooks/useIncome';
 
 export function ExpenseList() {
   const { data, isLoading, isError, error } = useExpenses();
+  const { data: dataIncome } = useIncome();
   const authQuery = useQuery({
     queryKey: AUTH_QUERY_KEY,
     queryFn: getAuthStatus,
   });
   const authStatus = authQuery.data?.authenticated;
+  const monthlyIncome = dataIncome?.income ?? 0;
 
   if (!authStatus) return <AlertCenter text="unauthorized!" />;
   if (isLoading) return <AlertCenter text="loading..." />;
   if (isError && !data) return <p>{error.message}</p>;
-  if (!data) {
+  if (!data || !dataIncome) {
     return <p>No data available</p>;
   }
 
@@ -119,44 +127,52 @@ export function ExpenseList() {
           <p>Latest expenses</p>
         </div>
         <div className="h-full overflow-y-auto">
-          {Object.entries(categorizedData).map(([month, expenses]) => (
-            <div key={month} className="w-full">
-              <div className="sticky top-0 z-10 flex flex-row justify-between bg-gray-300 px-1 shadow-sm">
-                <h2 className="font-semibold uppercase">
-                  {formatMonth(month)}
-                </h2>
-                <p>
-                  {new Intl.NumberFormat('id-ID', {
-                    style: 'currency',
-                    currency: 'IDR',
-                    minimumFractionDigits: 0,
-                  }).format(
-                    expenses.reduce((total, expense) => total + expense.IDR, 0),
-                  )}
-                </p>
+          {Object.entries(categorizedData).map(([month, expenses]) => {
+            const totalExpenses = expenses.reduce(
+              (total, expense) => total + expense.IDR,
+              0,
+            );
+            const { value, status } = calculateNetBalance(
+              totalExpenses,
+              monthlyIncome,
+            );
+
+            return (
+              <div key={month} className="w-full">
+                <div className="sticky top-0 z-10 flex flex-row justify-between bg-gray-300 px-1 shadow-sm">
+                  <h2 className="font-semibold uppercase flex flex-row items-center gap-1">
+                    {formatMonth(month)}
+                    <span
+                      className={`text-sm normal-case ${status === 'surplus' ? 'text-green-800' : status === 'balanced' ? 'text-foreground' : 'text-red-600'}`}
+                    >
+                      [{formatIDR(value)}]
+                    </span>
+                  </h2>
+                  <p>{formatIDR(totalExpenses)}</p>
+                </div>
+                <ul className="flex flex-col rounded-b-md">
+                  {expenses?.map((item) => (
+                    <li
+                      key={item.id}
+                      className="rounded-md w-full bg-gray-100 p-1 px-2 cursor-pointer hover:bg-amber-50 flex justify-between"
+                    >
+                      <span className="flex-1 truncate">{item.Product}</span>
+                      <div className="flex flex-row justify-between gap-1 flex-1 text-sm md:text-base">
+                        <span className="text-sm">{item.Date}</span>
+                        <span>
+                          {new Intl.NumberFormat('id-ID', {
+                            style: 'currency',
+                            currency: 'IDR',
+                            minimumFractionDigits: 0,
+                          }).format(item.IDR)}
+                        </span>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <ul className="flex flex-col rounded-b-md">
-                {expenses?.map((item) => (
-                  <li
-                    key={item.id}
-                    className="rounded-md w-full bg-gray-100 p-1 px-2 cursor-pointer hover:bg-amber-50 flex justify-between"
-                  >
-                    <span className="flex-1 truncate">{item.Product}</span>
-                    <div className="flex flex-row justify-between gap-1 flex-1 text-sm md:text-base">
-                      <span className="text-sm">{item.Date}</span>
-                      <span>
-                        {new Intl.NumberFormat('id-ID', {
-                          style: 'currency',
-                          currency: 'IDR',
-                          minimumFractionDigits: 0,
-                        }).format(item.IDR)}
-                      </span>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>
